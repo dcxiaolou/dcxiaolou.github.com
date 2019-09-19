@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[我的第一篇博客]]></title>
-    <url>%2F2019%2F09%2F19%2F%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%2F</url>
-    <content type="text"><![CDATA[哈哈，这是我的第一篇博客 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071/** * 消息消费者 * */public class TextConsumer &#123; public String receiverTextMessage() &#123; String resultCode = ""; ConnectionFactory factory = null; Connection connection = null; Session session = null; Destination destination = null; // 消息的消费者 MessageConsumer consumer = null; Message message = null; factory = new ActiveMQConnectionFactory("admin", "admin", "tcp://192.168.159.3:61616"); try &#123; connection = factory.createConnection(); // 消息的消费者必须启动连接，否则无法处理消息 connection.start(); session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE); destination = session.createQueue("first-mq"); // 创建消息的消费者，在指定的目的地中获取消息 consumer = session.createConsumer(destination); // 获取队列中的信息 receive方法是一个主动获取消息的方法，执行一次，拉取一个消息（开发少用） // 主动获取不涉及多个consumer问题，多个consumer涉及消息监听处理 message = consumer.receive(); // 连接超时，不是确认超时，是等待多久后，没有消息可处理，超时 // consumer.receive(timeout); // 确认消息，发送处理消息确认信息。通知MQ删除对应的消息 message.acknowledge(); // 处理文本信息 resultCode = ((TextMessage)message).getText(); &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; finally &#123; // 回收资源 if (consumer != null) &#123; try &#123; consumer.close(); // 回收消息消费者 &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; &#125; if (session != null) &#123; try &#123; session.close(); // 回收会话对象 &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; &#125; if (connection != null) &#123; try &#123; connection.close(); // 回收连接对象 &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; &#125; &#125; return resultCode; &#125; public static void main(String[] args) &#123; TextConsumer consumer = new TextConsumer(); String messageString = consumer.receiverTextMessage(); System.out.println("消息的内容是：" + messageString); &#125;&#125;]]></content>
+    <title><![CDATA[Typora及Markdown语法]]></title>
+    <url>%2F2019%2F09%2F19%2FTyproa%E5%8F%8AMarkdown%E8%AF%AD%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[Typora是一款轻便简介的Markdown编辑器，支持即时渲染技术，所见即所得。 Typora能够插入本地图片和来自网络的图片，但是，如果编写完后的.md文件要进行网络传输则插入的本地图片将会显示不出来。要解决该问题可以使用图床，如PicGo。PicGo在上传图片之后会自动将图片的链接复制到粘贴板中，并支持微博图床、七牛图床、GitHub等8中图床。 除此之外，还可以使用坚果云等云存储工具作为网络存储来保存编写的文件，这样就不怕丢失了，还可以在手机端查看。 Markdown语法==注意：在编写Markdown语法时，要多注意空格和回车，否则无法生效== 标题#[空格]标题 123456# 一阶标题 或 Ctrl+1## 二阶标题 或 Ctrl+2### 三阶标题 或 Ctrl+3#### 四阶标题 或 Ctrl+4##### 五阶标题 或 Ctrl+5###### 六阶标题 或 Ctrl+6 字体加粗1**加粗内容** 或 快捷键Ctrl+B 高亮1==高亮== 下划线1&lt;u&gt;下划线的内容&lt;/u&gt; 或 Ctrl+U 斜体1*倾斜内容* 或 Ctrl+I 删除线1~~删除线的内容~~ 或 Alt+Shift+5 文本居中1&lt;center&gt;居中的文本内容&lt;/center&gt; 角标1x^2^ 上角标 H~2~O 下角标 自动生成目录1在顶部添加[toc] list有序1数字+英文小数点(.)+空格 list无序1+ 、- 、*、+空格 todoList-空格[空格]空格 12- [ ] 未勾选- [x] 勾选 table1234567Ctrl+T或使用markdown语法| Tables | Are | Cool ||----------|:-------------:|------:|| col 1 is | left-aligned | $1600 || col 2 is | centered | $12 || col 3 is | right-aligned | $1 | 其中----------或:----------为左对齐，:----------:为居中对齐，----------:为右对齐。 1234567891011121314151617181920212223也可以使用html&lt;table&gt; &lt;tr&gt; &lt;th&gt;Tables&lt;/th&gt; &lt;th&gt;Are&lt;/th&gt; &lt;th&gt;Cool&lt;/th&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;col 1 is&lt;/td&gt; &lt;td&gt;left-aligned&lt;/td&gt; &lt;td&gt;$1600&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;col 2 is&lt;/td&gt; &lt;td&gt;centered&lt;/td&gt; &lt;td&gt;$12&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;col 3 is&lt;/td&gt; &lt;td&gt;right-aligned&lt;/td&gt; &lt;td&gt;$1&lt;/td&gt; &lt;/tr&gt;&lt;/table&gt; 插入图片12![标题](链接) 或 Ctrl+K也可将图片直接拖拽进来，自动生成链接 链接1[标题](链接 引用1&gt;+空格 角标12标号[^1][^1]:标号的含义 表情123:单词:如 :happy::arrow_down: 快捷键12345678Ctrl+1 一阶标题 Ctrl+2 二阶标题 Ctrl+3 三阶标题Ctrl+4 四阶标题 Ctrl+5 五阶标题 Ctrl+6 六阶标题Ctrl+B 字体加粗 Ctrl+I 字体倾斜 Ctrl+U 下划线Ctrl+Home 返回Typora顶部 Ctrl+End 返回Typora底部 Ctrl+T 创建表格Ctrl+L 选中某句话 Ctrl+D 选中某个单词 Ctrl+E 选中相同格式的文字Ctrl+K 创建超链接 Ctrl+F 搜索 Ctrl+H 搜索并替换Alt+Shift+5 删除线 Ctrl+Shift+I 插入图片 Ctrl+Shift+M 公式块Ctrl+Shift+Q 引用 Typroa支持的Markdown语法远不止这些，还支持数学公式、程序流程图、UML等的编写。]]></content>
       <categories>
-        <category>我的第一篇博客</category>
-        <category>测试</category>
+        <category>Typora</category>
+        <category>Markdown</category>
       </categories>
       <tags>
-        <tag>我的第一篇博客</tag>
-        <tag>测试</tag>
+        <tag>Typora</tag>
+        <tag>Markdown</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hello World]]></title>
-    <url>%2F2019%2F09%2F18%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+    <title><![CDATA[使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)]]></title>
+    <url>%2F2019%2F09%2F19%2F%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0GitHub%E5%92%8Ccoding.net(GitCafe)%2F</url>
+    <content type="text"><![CDATA[最近在学习Flink时看到了一个阿里大佬的个人博客（Jark’s Blog）觉得挺不错的，界面简洁、优雅，内容干货满满。即可以记录自己学到的知识和生活中的点点滴滴，又可以分享给其他小伙伴。于是自己也想搭一个，en~那就开始吧。 Hexo的安装Hexo是高效的静态站点生成框架，基于Node.js，通过它可以快速构建个人博客，并搭建到GitHub或coding.net供他人访问。 安装Node.jd和Git windows：分别从nodejs官网下载LTS版本和Git官网下载git，然后安装即可。 windows安装完git后可以直接在git bash中写linux命令 安装hexo 1npm install -g hexo 初始化项目 hexo init 自动创建hexo项目，然后执行hexo s --debug启动hexo服务，可在本地通过http://localhost:4000查看效果，--debug参数可以查看详细的日志，不是必须的 部署到GitHub和coding.net 创建一个和用户名相同的仓库，后面加上.github.io，即xxx.github.io 生成SSH并添加到GitHub 配置信息 git config --global user.name &quot;yourname&quot; git config --global user.email &quot;youremail&quot; 生成秘钥 ssh-keygen -t rsa -C &quot;youremail&quot; 将id_rsa.pub中的公钥（全部复制）添加到GitHub和coding.net上 GitHub：点击头像 -&gt; Settings -&gt; SSH and GPG keys coding.net：点击头像 -&gt; 个人设置 -&gt; SSH公钥 使用ssh -T git@github.com查看是否成功 修改配置文件 _config.yml 1234567# Deployment## Docs: https://hexo.io/docs/deployment.htmldeploy: type: git repo: github: https://github.com/username/username.github.io,master gitcafe: https://e.coding.net/username/username.git,master 推送 使用npm install hexo-deployer-git --save安装hexo部署工具 执行下面两个命令，就可以把项目自动部署到 github和coding.net上 123hexo cleanhexo generatehexo deploy 其中 hexo clean清除之前生成的东西，也可以不加，hexo generate 生成静态文章，可以用 hexo g缩写，hexo deploy 部署文章，可以用hexo d缩写。 注意deploy时需要输入username和password 成功之后可以使用https://username.github.io/访问部署在GitHub上的博客，使用https://randomCode.coding-pages.com/访问部署在coding.net上的博客（注意username的修改，coding.net上的访问地址要到部署 -&gt; 静态网站中查看）。 Hexo的基本使用以执行下列命令来创建一篇新文章或者新的页面 1$ hexo new [layout] &lt;title&gt; layout：指定文章的布局，默认为 post 接下来就可以使用Markdown工具编写在myBlog\source\_posts下的文章了 查看Hexo的官方文档，说明很详细 使用NexT主题查看NexT的官方文档，说明很详细 在使用NexT主题后遇到设置语言不生效的问题 1language: zh-Hans // 这里设置语言 简体中文 把theme/next/languages/目录下的zh-CN.yml文件改成名字为zh-Hans.yml就可以了 参考文档5分钟搞定个人博客-hexo hexo史上最全搭建教程 Hexo博客优化之Next主题美化 Hexo主题（Next）美化、配置、优化这一篇就够了]]></content>
+      <categories>
+        <category>Hexo</category>
+        <category>NexT</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>NexT</tag>
+      </tags>
   </entry>
 </search>

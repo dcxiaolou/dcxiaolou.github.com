@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>dcxiaolou&#39;Blog</title>
+  <title>dcxiaolou&#39;s Blog</title>
   <icon>https://dcxiaolou.github.io/icon.png</icon>
   
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://dcxiaolou.github.io/"/>
-  <updated>2019-09-19T08:14:15.088Z</updated>
+  <updated>2019-09-19T13:56:16.294Z</updated>
   <id>https://dcxiaolou.github.io/</id>
   
   <author>
@@ -17,50 +17,54 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>我的第一篇博客</title>
-    <link href="https://dcxiaolou.github.io/2019/09/19/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
-    <id>https://dcxiaolou.github.io/2019/09/19/我的第一篇博客/</id>
-    <published>2019-09-19T02:48:31.000Z</published>
-    <updated>2019-09-19T08:14:15.088Z</updated>
+    <title>Typora及Markdown语法</title>
+    <link href="https://dcxiaolou.github.io/2019/09/19/Typroa%E5%8F%8AMarkdown%E8%AF%AD%E6%B3%95/"/>
+    <id>https://dcxiaolou.github.io/2019/09/19/Typroa及Markdown语法/</id>
+    <published>2019-09-19T13:37:53.000Z</published>
+    <updated>2019-09-19T13:56:16.294Z</updated>
     
     <summary type="html">
     
-      &lt;h2 id=&quot;哈哈，这是我的第一篇博客&quot;&gt;&lt;a href=&quot;#哈哈，这是我的第一篇博客&quot; class=&quot;headerlink&quot; title=&quot;哈哈，这是我的第一篇博客&quot;&gt;&lt;/a&gt;哈哈，这是我的第一篇博客&lt;/h2&gt;
+      &lt;p&gt;&lt;a href=&quot;https://www.typora.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Typora&lt;/a&gt;是一款轻便简介的Markdown编辑器，支持即时渲染技术，所见即所得。&lt;/p&gt;
+&lt;p&gt;Typora能够插入本地图片和来自网络的图片，但是，如果编写完后的&lt;code&gt;.md&lt;/code&gt;文件要进行网络传输则插入的本地图片将会显示不出来。要解决该问题可以使用图床，如&lt;a href=&quot;https://picgo.github.io/PicGo-Doc/zh/guide/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;PicGo&lt;/a&gt;。PicGo在上传图片之后会自动将图片的链接复制到粘贴板中，并支持&lt;code&gt;微博图床&lt;/code&gt;、&lt;code&gt;七牛图床&lt;/code&gt;、&lt;code&gt;GitHub&lt;/code&gt;等8中图床。&lt;/p&gt;
+&lt;p&gt;除此之外，还可以使用&lt;a href=&quot;https://www.jianguoyun.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;坚果云&lt;/a&gt;等云存储工具作为网络存储来保存编写的文件，这样就不怕丢失了，还可以在手机端查看。&lt;/p&gt;
     
     </summary>
     
     
-      <category term="我的第一篇博客" scheme="https://dcxiaolou.github.io/categories/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+      <category term="Typora" scheme="https://dcxiaolou.github.io/categories/Typora/"/>
     
-      <category term="测试" scheme="https://dcxiaolou.github.io/categories/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/%E6%B5%8B%E8%AF%95/"/>
+      <category term="Markdown" scheme="https://dcxiaolou.github.io/categories/Typora/Markdown/"/>
     
     
-      <category term="我的第一篇博客" scheme="https://dcxiaolou.github.io/tags/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/"/>
+      <category term="Typora" scheme="https://dcxiaolou.github.io/tags/Typora/"/>
     
-      <category term="测试" scheme="https://dcxiaolou.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
+      <category term="Markdown" scheme="https://dcxiaolou.github.io/tags/Markdown/"/>
     
   </entry>
   
   <entry>
-    <title>Hello World</title>
-    <link href="https://dcxiaolou.github.io/2019/09/18/hello-world/"/>
-    <id>https://dcxiaolou.github.io/2019/09/18/hello-world/</id>
-    <published>2019-09-18T14:27:46.782Z</published>
-    <updated>2019-09-19T02:49:27.432Z</updated>
+    <title>使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)</title>
+    <link href="https://dcxiaolou.github.io/2019/09/19/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0GitHub%E5%92%8Ccoding.net(GitCafe)/"/>
+    <id>https://dcxiaolou.github.io/2019/09/19/使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)/</id>
+    <published>2019-09-19T02:48:31.000Z</published>
+    <updated>2019-09-19T16:45:24.639Z</updated>
     
     <summary type="html">
     
-      
-      
-        
-        
-          &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a
-        
-      
+      &lt;p&gt;最近在学习&lt;code&gt;Flink&lt;/code&gt;时看到了一个阿里大佬的个人博客（&lt;a href=&quot;http://wuchong.me/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Jark’s Blog&lt;/a&gt;）觉得挺不错的，界面简洁、优雅，内容干货满满。即可以记录自己学到的知识和生活中的点点滴滴，又可以分享给其他小伙伴。于是自己也想搭一个，en~那就开始吧。&lt;/p&gt;
     
     </summary>
     
     
+      <category term="Hexo" scheme="https://dcxiaolou.github.io/categories/Hexo/"/>
+    
+      <category term="NexT" scheme="https://dcxiaolou.github.io/categories/Hexo/NexT/"/>
+    
+    
+      <category term="Hexo" scheme="https://dcxiaolou.github.io/tags/Hexo/"/>
+    
+      <category term="NexT" scheme="https://dcxiaolou.github.io/tags/NexT/"/>
     
   </entry>
   
