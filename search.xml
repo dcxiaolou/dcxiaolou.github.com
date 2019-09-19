@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[我的第一篇博客]]></title>
+    <url>%2F2019%2F09%2F19%2F%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2%2F</url>
+    <content type="text"><![CDATA[哈哈，这是我的第一篇博客 1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071/** * 消息消费者 * */public class TextConsumer &#123; public String receiverTextMessage() &#123; String resultCode = ""; ConnectionFactory factory = null; Connection connection = null; Session session = null; Destination destination = null; // 消息的消费者 MessageConsumer consumer = null; Message message = null; factory = new ActiveMQConnectionFactory("admin", "admin", "tcp://192.168.159.3:61616"); try &#123; connection = factory.createConnection(); // 消息的消费者必须启动连接，否则无法处理消息 connection.start(); session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE); destination = session.createQueue("first-mq"); // 创建消息的消费者，在指定的目的地中获取消息 consumer = session.createConsumer(destination); // 获取队列中的信息 receive方法是一个主动获取消息的方法，执行一次，拉取一个消息（开发少用） // 主动获取不涉及多个consumer问题，多个consumer涉及消息监听处理 message = consumer.receive(); // 连接超时，不是确认超时，是等待多久后，没有消息可处理，超时 // consumer.receive(timeout); // 确认消息，发送处理消息确认信息。通知MQ删除对应的消息 message.acknowledge(); // 处理文本信息 resultCode = ((TextMessage)message).getText(); &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; finally &#123; // 回收资源 if (consumer != null) &#123; try &#123; consumer.close(); // 回收消息消费者 &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; &#125; if (session != null) &#123; try &#123; session.close(); // 回收会话对象 &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; &#125; if (connection != null) &#123; try &#123; connection.close(); // 回收连接对象 &#125; catch (JMSException e) &#123; e.printStackTrace(); &#125; &#125; &#125; return resultCode; &#125; public static void main(String[] args) &#123; TextConsumer consumer = new TextConsumer(); String messageString = consumer.receiverTextMessage(); System.out.println("消息的内容是：" + messageString); &#125;&#125;]]></content>
+      <categories>
+        <category>我的第一篇博客</category>
+        <category>测试</category>
+      </categories>
+      <tags>
+        <tag>我的第一篇博客</tag>
+        <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Hello World]]></title>
+    <url>%2F2019%2F09%2F18%2Fhello-world%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+  </entry>
+</search>
