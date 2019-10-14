@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://dcxiaolou.github.io/"/>
-  <updated>2019-09-19T13:56:16.294Z</updated>
+  <updated>2019-10-14T15:40:21.907Z</updated>
   <id>https://dcxiaolou.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题</title>
+    <link href="https://dcxiaolou.github.io/2019/10/14/%E4%BD%BF%E7%94%A8Flume%E5%B0%86Kafka%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%85%A5%E5%88%B0HDFS%E6%97%B6native-lzo%20library%20not%20available%E9%97%AE%E9%A2%98/"/>
+    <id>https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/</id>
+    <published>2019-10-14T15:37:14.000Z</published>
+    <updated>2019-10-14T15:40:21.907Z</updated>
+    
+    <summary type="html">
+    
+      &lt;p&gt;环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2&lt;/p&gt;
+&lt;p&gt;在 Hadoop 中使用了 LZO 来进行压缩&lt;/p&gt;
+&lt;p&gt;数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中&lt;/p&gt;
+&lt;p&gt;在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误，同时在 Hadoop 的 web 界面中可以看见很多以 .lzo.tmp 结尾的文件&lt;/p&gt;
+&lt;p&gt;解决：在使用 Flume 导入数据的节点上重新安装 LZO 和 LZOP&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Flume" scheme="https://dcxiaolou.github.io/categories/Flume/"/>
+    
+      <category term="LZO" scheme="https://dcxiaolou.github.io/categories/Flume/LZO/"/>
+    
+    
+      <category term="Flume" scheme="https://dcxiaolou.github.io/tags/Flume/"/>
+    
+      <category term="LZO" scheme="https://dcxiaolou.github.io/tags/LZO/"/>
+    
+  </entry>
   
   <entry>
     <title>Typora及Markdown语法</title>
@@ -48,7 +77,7 @@
     <link href="https://dcxiaolou.github.io/2019/09/19/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E5%B9%B6%E9%83%A8%E7%BD%B2%E5%88%B0GitHub%E5%92%8Ccoding.net(GitCafe)/"/>
     <id>https://dcxiaolou.github.io/2019/09/19/使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)/</id>
     <published>2019-09-19T02:48:31.000Z</published>
-    <updated>2019-09-19T16:45:24.639Z</updated>
+    <updated>2019-09-19T17:06:47.724Z</updated>
     
     <summary type="html">
     
