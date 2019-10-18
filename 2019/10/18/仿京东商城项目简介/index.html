@@ -56,19 +56,30 @@
   };
 </script>
 
-  <meta name="description" content="环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2 在 Hadoop 中使用了 LZO 来进行压缩 数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中 在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误">
-<meta name="keywords" content="Flume,LZO">
+  <meta name="description" content="本次介绍的项目是一个综合性的B2C平台，非常类似京东商城  为什么要写仿京东商城项目？因为就互联网平台来说，电商网站有很多典型的特征：  访问量大  数据量大  并发高，实战性强  有一定的业务复杂性,技术点丰富  涉及支付考虑一定安全性">
+<meta name="keywords" content="个人项目,电商">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题">
-<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/index.html">
+<meta property="og:title" content="仿京东商城项目简介">
+<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/18/仿京东商城项目简介/index.html">
 <meta property="og:site_name" content="dcxiaolou&#39;s Blog">
-<meta property="og:description" content="环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2 在 Hadoop 中使用了 LZO 来进行压缩 数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中 在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误">
+<meta property="og:description" content="本次介绍的项目是一个综合性的B2C平台，非常类似京东商城  为什么要写仿京东商城项目？因为就互联网平台来说，电商网站有很多典型的特征：  访问量大  数据量大  并发高，实战性强  有一定的业务复杂性,技术点丰富  涉及支付考虑一定安全性">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-14T15:40:21.907Z">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-logo.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571371216092.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571371208802.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571371296619.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571360243971.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571360283686.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86.gif">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E5%89%8D%E5%8F%B0%E5%8A%9F%E8%83%BD.gif">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E5%BE%AE%E5%8D%9A%E7%99%BB%E5%BD%95.gif">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E6%B7%BB%E5%8A%A0SPU%E5%8F%8A%E6%90%9C%E7%B4%A2.gif">
+<meta property="og:updated_time" content="2019-10-18T08:01:11.311Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题">
-<meta name="twitter:description" content="环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2 在 Hadoop 中使用了 LZO 来进行压缩 数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中 在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误">
-  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/">
+<meta name="twitter:title" content="仿京东商城项目简介">
+<meta name="twitter:description" content="本次介绍的项目是一个综合性的B2C平台，非常类似京东商城  为什么要写仿京东商城项目？因为就互联网平台来说，电商网站有很多典型的特征：  访问量大  数据量大  并发高，实战性强  有一定的业务复杂性,技术点丰富  涉及支付考虑一定安全性">
+<meta name="twitter:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-logo.png">
+  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/18/仿京东商城项目简介/">
 
 
 <script id="page-configurations">
@@ -82,7 +93,7 @@
   };
 </script>
 
-  <title>使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题 | dcxiaolou's Blog</title>
+  <title>仿京东商城项目简介 | dcxiaolou's Blog</title>
   
 
 
@@ -257,7 +268,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/">
+    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/18/仿京东商城项目简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dcxiaolou">
@@ -269,7 +280,7 @@
       <meta itemprop="name" content="dcxiaolou's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题
+        <h1 class="post-title" itemprop="name headline">仿京东商城项目简介
 
           
         </h1>
@@ -285,7 +296,7 @@
                 
               
 
-              <time title="创建时间：2019-10-14 23:37:14 / 修改时间：23:40:21" itemprop="dateCreated datePublished" datetime="2019-10-14T23:37:14+08:00">2019-10-14</time>
+              <time title="创建时间：2019-10-18 00:11:38 / 修改时间：16:01:11" itemprop="dateCreated datePublished" datetime="2019-10-18T00:11:38+08:00">2019-10-18</time>
             </span>
           
             
@@ -298,14 +309,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flume/" itemprop="url" rel="index"><span itemprop="name">Flume</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/" itemprop="url" rel="index"><span itemprop="name">个人项目</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flume/LZO/" itemprop="url" rel="index"><span itemprop="name">LZO</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/电商/" itemprop="url" rel="index"><span itemprop="name">电商</span></a></span>
 
                 
                 
@@ -332,47 +343,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2</p>
-<p>在 Hadoop 中使用了 LZO 来进行压缩</p>
-<p>数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中</p>
-<p>在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误，同时在 Hadoop 的 web 界面中可以看见很多以 .lzo.tmp 结尾的文件</p>
-<p>解决：在使用 Flume 导入数据的节点上重新安装 LZO 和 LZOP</p>
+        <p>本次介绍的项目是一个综合性的B2C平台，非常类似京东商城</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-logo.png" alt="logo"></p>
+<h2 id="为什么要写仿京东商城项目？"><a href="#为什么要写仿京东商城项目？" class="headerlink" title="为什么要写仿京东商城项目？"></a>为什么要写仿京东商城项目？</h2><p>因为就互联网平台来说，电商网站有很多典型的特征：</p>
+<ul>
+<li><p>访问量大</p>
+</li>
+<li><p>数据量大</p>
+</li>
+<li><p>并发高，实战性强</p>
+</li>
+<li><p>有一定的业务复杂性,技术点丰富</p>
+</li>
+<li><p>涉及支付考虑一定安全性</p>
+</li>
+</ul>
 <a id="more"></a>
 
-<p>准备工作：</p>
-<p>yum -y install  lzo-devel  zlib-devel  gcc autoconf automake libtool</p>
-<ol>
-<li><p>安装 LZO</p>
-<p>wget <a href="http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz" target="_blank" rel="noopener">http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz</a><br>tar -zxvf lzo-2.06.tar.gz<br>./configure -enable-shared -prefix=/opt/module/lzo/<br>make &amp;&amp; make install</p>
-</li>
-<li><p>安装 LZOP<br>wget <a href="http://www.lzop.org/download/lzop-1.03.tar.gz" target="_blank" rel="noopener">http://www.lzop.org/download/lzop-1.03.tar.gz</a><br>tar -zxvf lzop-1.03.tar.gz<br>./configure -enable-shared -prefix=/opt/module/lzop/<br>make  &amp;&amp; make install</p>
-</li>
-<li><p>把 LZOP 复制到/usr/bin/</p>
-<p>ln -s /opt/module/lzop/bin/lzop /usr/bin/lzop</p>
-</li>
-<li><p>测试 LZOP</p>
-<p>lzop /tmp/logs/app-2019-01-01.log</p>
-<p>会生成一个以 .lzo 为后缀的压缩文件：/tmp/logs/app-2019-01-01.log.lzo</p>
-</li>
-<li><p>安装Hadoop-lzo</p>
-<p>先下载lzo的jar项目 <a href="https://github.com/twitter/hadoop-lzo/archive/master.zip" target="_blank" rel="noopener">https://github.com/twitter/hadoop-lzo/archive/master.zip</a></p>
-<p>下载后的文件名是hadoop-lzo-master，它是一个zip格式的压缩包，先进行解压，然后用maven编译。生成hadoop-lzo-0.4.20.jar。</p>
-</li>
-<li><p>配置 Hadoop</p>
-<p>在文件$HADOOP_HOME/etc/hadoop/hadoop-env.sh中追加如下内容：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=/usr/local/hadoop/lzo/lib</span><br></pre></td></tr></table></figure>
-
-<p>在文件$HADOOP_HOME/etc/hadoop/core-site.xml中追加如下内容：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codecs<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.io.compress.GzipCodec,</span><br><span class="line">                   org.apache.hadoop.io.compress.DefaultCodec,</span><br><span class="line">                   com.hadoop.compression.lzo.LzoCodec,</span><br><span class="line">                   com.hadoop.compression.lzo.LzopCodec,</span><br><span class="line">                   org.apache.hadoop.io.compress.BZip2Codec</span><br><span class="line">        <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codec.lzo.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.hadoop.compression.lzo.LzoCodec<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在文件$HADOOP_HOME/etc/hadoop/mapred-site.xml中追加如下内容：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.compress.map.output<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.map.output.compression.codec<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.hadoop.compression.lzo.LzoCodec<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.child.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>LD_LIBRARY_PATH=/usr/local/hadoop/lzo/lib<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<p>最后重启 Hadoop 和 Flume 即可解决问题</p>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/zhangzhaokun/article/details/17595325" target="_blank" rel="noopener">https://blog.csdn.net/zhangzhaokun/article/details/17595325</a></p>
+<h2 id="项目架构"><a href="#项目架构" class="headerlink" title="项目架构"></a>项目架构</h2><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571371216092.png" alt="1571371216092"></p>
+<h2 id="功能流程"><a href="#功能流程" class="headerlink" title="功能流程"></a>功能流程</h2><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571371208802.png" alt="1571371208802"></p>
+<h2 id="使用到的技术"><a href="#使用到的技术" class="headerlink" title="使用到的技术"></a>使用到的技术</h2><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571371296619.png" alt></p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571360243971.png" alt="1571360243971"></p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/1571360283686.png" alt></p>
+<h2 id="功能展示"><a href="#功能展示" class="headerlink" title="功能展示"></a>功能展示</h2><p>友情提醒：以下 gif 图片较大，如果加载失败，请刷新页面或右键图片 —&gt; 在新标签页中打开图片</p>
+<h3 id="后台管理"><a href="#后台管理" class="headerlink" title="后台管理"></a>后台管理</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86.gif" alt></p>
+<h3 id="前台功能"><a href="#前台功能" class="headerlink" title="前台功能"></a>前台功能</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E5%89%8D%E5%8F%B0%E5%8A%9F%E8%83%BD.gif" alt></p>
+<h3 id="微博登录"><a href="#微博登录" class="headerlink" title="微博登录"></a>微博登录</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E5%BE%AE%E5%8D%9A%E7%99%BB%E5%BD%95.gif" alt></p>
+<h3 id="添加商品及搜索"><a href="#添加商品及搜索" class="headerlink" title="添加商品及搜索"></a>添加商品及搜索</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-%E6%B7%BB%E5%8A%A0SPU%E5%8F%8A%E6%90%9C%E7%B4%A2.gif" alt></p>
+<p>更多详细内容请访问 <a href="https://dcxiaolou.github.io/">https://dcxiaolou.github.io/</a> 或 <a href="https://0teem0.coding-pages.com/" target="_blank" rel="noopener">https://0teem0.coding-pages.com/</a></p>
 
     </div>
 
@@ -389,7 +387,7 @@
     <strong>本文作者： </strong>dcxiaolou</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/" title="使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题">https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/</a>
+    <a href="https://dcxiaolou.github.io/2019/10/18/仿京东商城项目简介/" title="仿京东商城项目简介">https://dcxiaolou.github.io/2019/10/18/仿京东商城项目简介/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -404,9 +402,9 @@
           
           <div class="post-tags">
             
-              <a href="/tags/Flume/" rel="tag"># Flume</a>
+              <a href="/tags/个人项目/" rel="tag"># 个人项目</a>
             
-              <a href="/tags/LZO/" rel="tag"># LZO</a>
+              <a href="/tags/电商/" rel="tag"># 电商</a>
             
           </div>
         
@@ -416,8 +414,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/19/Typroa及Markdown语法/" rel="next" title="Typora及Markdown语法">
-                  <i class="fa fa-chevron-left"></i> Typora及Markdown语法
+                <a href="/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/" rel="next" title="使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题">
+                  <i class="fa fa-chevron-left"></i> 使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题
                 </a>
               
             </div>
@@ -425,10 +423,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/10/18/仿京东商城项目简介/" rel="prev" title="仿京东商城项目简介">
-                  仿京东商城项目简介 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -477,6 +471,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要写仿京东商城项目？"><span class="nav-number">1.</span> <span class="nav-text">为什么要写仿京东商城项目？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目架构"><span class="nav-number">2.</span> <span class="nav-text">项目架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能流程"><span class="nav-number">3.</span> <span class="nav-text">功能流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用到的技术"><span class="nav-number">4.</span> <span class="nav-text">使用到的技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能展示"><span class="nav-number">5.</span> <span class="nav-text">功能展示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#后台管理"><span class="nav-number">5.1.</span> <span class="nav-text">后台管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前台功能"><span class="nav-number">5.2.</span> <span class="nav-text">前台功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微博登录"><span class="nav-number">5.3.</span> <span class="nav-text">微博登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加商品及搜索"><span class="nav-number">5.4.</span> <span class="nav-text">添加商品及搜索</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
