@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://dcxiaolou.github.io/"/>
-  <updated>2019-10-18T08:12:13.120Z</updated>
+  <updated>2019-10-20T12:17:00.409Z</updated>
   <id>https://dcxiaolou.github.io/</id>
   
   <author>
@@ -17,11 +17,68 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>仿京东商城项目简介</title>
-    <link href="https://dcxiaolou.github.io/2019/10/18/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E9%A1%B9%E7%9B%AE%E7%AE%80%E4%BB%8B/"/>
-    <id>https://dcxiaolou.github.io/2019/10/18/仿京东商城项目简介/</id>
+    <title>Dubbo简介</title>
+    <link href="https://dcxiaolou.github.io/2019/10/20/Dubbo%E7%AE%80%E4%BB%8B/"/>
+    <id>https://dcxiaolou.github.io/2019/10/20/Dubbo简介/</id>
+    <published>2019-10-20T12:11:44.000Z</published>
+    <updated>2019-10-20T12:17:00.409Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Dubbo-简介&quot;&gt;&lt;a href=&quot;#Dubbo-简介&quot; class=&quot;headerlink&quot; title=&quot;Dubbo 简介&quot;&gt;&lt;/a&gt;Dubbo 简介&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Dubbo: 一个分布式、高性能、透明化的RPC服务框架&lt;/p&gt;
+&lt;p&gt;RPC(Remote Procedure Call Protocol)指远程过程调用协议&lt;/p&gt;
+&lt;p&gt;RPC解析: 客户端通过互联网调用远程服务器，不知道远程服务器具体实现，只知道远程服务器提供了什么功能&lt;/p&gt;
+&lt;p&gt;RPC最大优点: 数据安全性&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;作用: 提供服务自动注册、自动发现等高效服务治理方案&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+      <category term="Dubbo" scheme="https://dcxiaolou.github.io/categories/Dubbo/"/>
+    
+    
+      <category term="Dubbo" scheme="https://dcxiaolou.github.io/tags/Dubbo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>仿京东管理项目之架构（二）</title>
+    <link href="https://dcxiaolou.github.io/2019/10/20/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E7%AE%A1%E7%90%86%E9%A1%B9%E7%9B%AE%E4%B9%8B%E6%9E%B6%E6%9E%84%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
+    <id>https://dcxiaolou.github.io/2019/10/20/仿京东管理项目之架构（二）/</id>
+    <published>2019-10-20T11:20:20.000Z</published>
+    <updated>2019-10-20T11:30:31.844Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;一、分布式架构&quot;&gt;&lt;a href=&quot;#一、分布式架构&quot; class=&quot;headerlink&quot; title=&quot;一、分布式架构&quot;&gt;&lt;/a&gt;一、分布式架构&lt;/h3&gt;&lt;p&gt;将各个应用通过分层独立出来，可以利用rpc实现web与service、service与service的互相调用，提高了代码的复用性。&lt;/p&gt;
+&lt;p&gt;缺点：  每个调用的模块要存储一份完整的被调用模块的位置和状态，一旦位置和状态发生变化，就要更新所有涉及的配置。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;面向服务的分布式架构&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;随着架构不断增大，服务节点也越来越多，服务之间的调用和依赖关系也越来越复杂，需要有一个统一的中心来调度、路由、管理所有的服务，基于这个中心构建的这个星型架构就是现在目前最主流的SOA分布式架构。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="个人项目" scheme="https://dcxiaolou.github.io/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="电商" scheme="https://dcxiaolou.github.io/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/%E7%94%B5%E5%95%86/"/>
+    
+    
+      <category term="个人项目" scheme="https://dcxiaolou.github.io/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="电商" scheme="https://dcxiaolou.github.io/tags/%E7%94%B5%E5%95%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>仿京东商城项目之简介（一）</title>
+    <link href="https://dcxiaolou.github.io/2019/10/18/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E9%A1%B9%E7%9B%AE%E4%B9%8B%E7%AE%80%E4%BB%8B%EF%BC%88%E4%B8%80%EF%BC%89/"/>
+    <id>https://dcxiaolou.github.io/2019/10/18/仿京东商城项目之简介（一）/</id>
     <published>2019-10-17T16:11:38.000Z</published>
-    <updated>2019-10-18T08:12:13.120Z</updated>
+    <updated>2019-10-20T11:19:17.634Z</updated>
     
     <summary type="html">
     

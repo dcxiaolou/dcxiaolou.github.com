@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="dcxiaolou's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Dubbo 简介 Dubbo: 一个分布式、高性能、透明化的RPC服务框架 RPC(Remote Procedure Call Protocol)指远程过程调用协议 RPC解析: 客户端通过互联网调用远程服务器，不知道远程服务器具体实现，只知道远程服务器提供了什么功能 RPC最大优点: 数据安全性  作用: 提供服务自动注册、自动发现等高效服务治理方案">
+<meta name="keywords" content="Dubbo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dubbo简介">
+<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/20/Dubbo简介/index.html">
+<meta property="og:site_name" content="dcxiaolou&#39;s Blog">
+<meta property="og:description" content="Dubbo 简介 Dubbo: 一个分布式、高性能、透明化的RPC服务框架 RPC(Remote Procedure Call Protocol)指远程过程调用协议 RPC解析: 客户端通过互联网调用远程服务器，不知道远程服务器具体实现，只知道远程服务器提供了什么功能 RPC最大优点: 数据安全性  作用: 提供服务自动注册、自动发现等高效服务治理方案">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571571344242.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571572866451.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571572927428.png">
+<meta property="og:updated_time" content="2019-10-20T12:17:00.409Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dubbo简介">
+<meta name="twitter:description" content="Dubbo 简介 Dubbo: 一个分布式、高性能、透明化的RPC服务框架 RPC(Remote Procedure Call Protocol)指远程过程调用协议 RPC解析: 客户端通过互联网调用远程服务器，不知道远程服务器具体实现，只知道远程服务器提供了什么功能 RPC最大优点: 数据安全性  作用: 提供服务自动注册、自动发现等高效服务治理方案">
+<meta name="twitter:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571571344242.png">
+  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/20/Dubbo简介/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Dubbo简介 | dcxiaolou's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dcxiaolou's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/20/Dubbo简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dcxiaolou">
+      <meta itemprop="description" content="今天的最好是明天最低的标准。">
+      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dcxiaolou's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Dubbo简介
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-20 20:11:44 / 修改时间：20:17:00" itemprop="dateCreated datePublished" datetime="2019-10-20T20:11:44+08:00">2019-10-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Dubbo/" itemprop="url" rel="index"><span itemprop="name">Dubbo</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Dubbo-简介"><a href="#Dubbo-简介" class="headerlink" title="Dubbo 简介"></a>Dubbo 简介</h3><ol>
+<li><p>Dubbo: 一个分布式、高性能、透明化的RPC服务框架</p>
+<p>RPC(Remote Procedure Call Protocol)指远程过程调用协议</p>
+<p>RPC解析: 客户端通过互联网调用远程服务器，不知道远程服务器具体实现，只知道远程服务器提供了什么功能</p>
+<p>RPC最大优点: 数据安全性</p>
+</li>
+<li><p>作用: 提供服务自动注册、自动发现等高效服务治理方案</p>
+</li>
+</ol>
+<a id="more"></a>
+
+<h3 id="Dubbo的基本概念"><a href="#Dubbo的基本概念" class="headerlink" title="Dubbo的基本概念"></a>Dubbo的基本概念</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571571344242.png" alt="1571571344242"></p>
+<p>​        <strong>服务提供者（Provider）</strong>：暴露服务的服务提供方，服务提供者在启动时，向注册中心注册自己提供的服务。</p>
+<p>​         <strong>服务消费者（Consumer）</strong>: 调用远程服务的服务消费方，服务消费者在启动时，向注册中心订阅自己所需的服务，服务消费者从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</p>
+<p>​         <strong>Container</strong>：Dubbo容器，依赖于 Spring 容器</p>
+<p>​        <strong>注册中心（Registry）</strong>：注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者</p>
+<p>​         <strong>监控中心（Monitor）</strong>：服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心</p>
+<p>​        虚线都是异步访问，实线都是同步访问</p>
+<p>​        蓝色虚线:在启动时完成的功能</p>
+<p>​        绿色虚线(实线)都是程序运行过程中执行的功能</p>
+<p>​        所有的角色都是可以在单独的服务器上.所以必须遵守特定的协议.</p>
+<p><strong>调用关系说明</strong></p>
+<ul>
+<li><p>服务容器负责启动，加载，运行服务提供者。</p>
+</li>
+<li><p>服务提供者在启动时，向注册中心注册自己提供的服务。</p>
+</li>
+<li><p>服务消费者在启动时，向注册中心订阅自己所需的服务。</p>
+</li>
+<li><p>注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。</p>
+</li>
+<li><p>服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</p>
+</li>
+<li><p>服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</p>
+</li>
+</ul>
+<h3 id="Dubbo-支持的注册中心"><a href="#Dubbo-支持的注册中心" class="headerlink" title="Dubbo 支持的注册中心"></a>Dubbo 支持的注册中心</h3><ol>
+<li><p>Zookeeper</p>
+<p>优点:支持网络集群</p>
+<p>缺点:稳定性受限于Zookeeper</p>
+</li>
+<li><p>Redis </p>
+<p>优点:性能高.</p>
+<p>缺点:对服务器环境要求较高.</p>
+</li>
+<li><p>Multicast</p>
+<p>优点:免中心化,不需要额外安装软件.</p>
+<p>缺点:建议同机房(局域网)内使用</p>
+</li>
+<li><p>Simple</p>
+<p>适用于测试环境.不支持集群.</p>
+</li>
+</ol>
+<h3 id="Dubbo-支持的协议"><a href="#Dubbo-支持的协议" class="headerlink" title="Dubbo 支持的协议"></a>Dubbo 支持的协议</h3><ol>
+<li><p>Dubbo</p>
+<p>Dubbo官方推荐的协议.</p>
+<p>本质:使用NIO和线程池进行处理.</p>
+<p>缺点:大文件传输时可能出现文件传输失败问题.</p>
+</li>
+<li><p>RMI</p>
+<p>JDK提供的协议,远程方法调用协议.</p>
+<p>缺点:偶尔连接失败.</p>
+<p>优点:JDK原生,不需要进行额外配置(导入jar)</p>
+</li>
+<li><p>Hession</p>
+<p>优点:基于http协议,http请求支持.</p>
+<p>缺点:需要额外导入jar,并在短连接时性能低</p>
+</li>
+</ol>
+<h3 id="如何在项目中引入-dubbo"><a href="#如何在项目中引入-dubbo" class="headerlink" title="如何在项目中引入 dubbo"></a>如何在项目中引入 dubbo</h3><p>dubbo其实是一组jar包，通过maven引入就可以。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dubbo-starter.version</span>&gt;</span>1.0.10<span class="tag">&lt;/<span class="name">dubbo-starter.version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dubbo.version</span>&gt;</span>2.6.0<span class="tag">&lt;/<span class="name">dubbo.version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">zkclient.version</span>&gt;</span>0.10<span class="tag">&lt;/<span class="name">zkclient.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dubbo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;dubbo.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.101tec<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zkclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;zkclient.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">            <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.gitee.reger<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-dubbo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;dubbo-starter.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>注册中心为 Zookeeper</p>
+<p>Provider（服务提供方）相关配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  dubbo:</span></span><br><span class="line"><span class="attr">    application:</span></span><br><span class="line"><span class="attr">      name:</span> <span class="string">cart-service</span></span><br><span class="line"><span class="attr">    protocol:</span> <span class="string">dubbo</span></span><br><span class="line"><span class="attr">    registry:</span></span><br><span class="line"><span class="attr">      protocol:</span> <span class="string">zookeeper</span></span><br><span class="line"><span class="attr">      address:</span> <span class="number">192.168</span><span class="number">.159</span><span class="number">.3</span><span class="string">:2181</span></span><br><span class="line"><span class="attr">    base-package:</span> <span class="string">com.dcxiaolou.tinyJD</span></span><br></pre></td></tr></table></figure>
+
+<p>Consumer（服务消费方）相关配置</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  dubbo:</span></span><br><span class="line"><span class="attr">    application:</span></span><br><span class="line"><span class="attr">      name:</span> <span class="string">cart-web</span></span><br><span class="line"><span class="attr">    protocol:</span> <span class="string">dubbo</span></span><br><span class="line"><span class="attr">    registry:</span></span><br><span class="line"><span class="attr">      protocol:</span> <span class="string">zookeeper</span></span><br><span class="line"><span class="attr">      address:</span> <span class="number">192.168</span><span class="number">.159</span><span class="number">.3</span><span class="string">:2181</span></span><br><span class="line"><span class="attr">    consumer:</span></span><br><span class="line"><span class="attr">      timeout:</span> <span class="number">600000</span></span><br><span class="line"><span class="attr">      check:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">    base-package:</span> <span class="string">com.dcxiaolou.tinyJD</span></span><br></pre></td></tr></table></figure>
+
+<p>配置说明：</p>
+<ul>
+<li><p>application.name 是服务名，不能跟别的dubbo提供端重复</p>
+</li>
+<li><p>registry.protocol 是指定注册中心协议</p>
+</li>
+<li><p>registry.address 是注册中心的地址加端口号</p>
+</li>
+<li><p>protocol.name 是分布式固定是dubbo,不要改</p>
+</li>
+<li><p>base-package  注解方式要扫描的包</p>
+</li>
+<li><p>port 是服务提供端为zookeeper暴露的端口，不能跟别的dubbo提供端重复</p>
+</li>
+<li><p>consumer.timeout  是访问提供端服务的超时时间，默认是1000毫秒</p>
+</li>
+<li><p>consumer.check 是启动消费端时，是否检查服务端能否正常访问。如果选择true，那启动消费端时，必须保证提供端服务正常，否则接口无法注入。</p>
+</li>
+</ul>
+<p>dubbo的使用分为<strong>提供端</strong>和<strong>消费端</strong>。消费端的注解为@Reference，提供端的注解为@Service（注意不要引入spring的包，而是alibaba.dubbo对应的包）</p>
+<h3 id="Dubbo-Admin-管理界面"><a href="#Dubbo-Admin-管理界面" class="headerlink" title="Dubbo Admin 管理界面"></a>Dubbo Admin 管理界面</h3><p>本质就是一个web项目，获取注册中心内Provider注册的信息用页面呈现出来</p>
+<p>实现步骤</p>
+<ol>
+<li><p>把dubbo-admin-2.5.3.war上传到服务器tomcat中.</p>
+</li>
+<li><p>启动tomcat完成后关闭tomcat，删除上传的dubbo-admin-2.5.3.war</p>
+<p>为什么要删除:需要修改解压后的文件夹，如果不删除.war文件，下次重启tomcat会还原成未修改状态</p>
+</li>
+<li><p>进入dubbo-admin-2.5.3/WEB-INF/dubbo.properties,修改第一行为zookeeper的ip和端口</p>
+<p>第二行和第三行为管理界面的用户名和密码</p>
+</li>
+</ol>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571572866451.png" alt="1571572866451"></p>
+<ol start="4">
+<li>启动tomcat, 在浏览器地址栏访问tomcat中dubbo项目</li>
+</ol>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571572927428.png" alt="1571572927428"></p>
+<h3 id="dubbo-与-springcloud-的区别"><a href="#dubbo-与-springcloud-的区别" class="headerlink" title="dubbo 与 springcloud 的区别"></a>dubbo 与 springcloud 的区别</h3><p>Dubbo出于阿里系，是阿里巴巴服务化治理的核心框架，并被广泛应用于中国各互联网公司；只需要通过spring配置的方式即可完成服务化，对于应用无入侵。框架本身的成熟度以及文档的完善程度，完全能满足各大互联网公司的业务需求。但如果我们需要使用配置中心、分布式跟踪这些内容都需要自己去集成，这样无形中增加了使用Dubbo 的难度。</p>
+<p>Spring Cloud 是大名鼎鼎的 Spring 家族的产品， 专注于企业级开源框架的研发。Spring Cloud 自从发展到现在，仍然在不断的高速发展，几乎考虑了服务治理的方方面面，开发起来非常的便利和简单。Spring Cloud更新的非常快，企业需要根据自身的研发水平和所处阶段选择合适的架构来解决业务问题，不管是Dubbo还是Spring Cloud都是实现微服务有效的工具。</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>dcxiaolou</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dcxiaolou.github.io/2019/10/20/Dubbo简介/" title="Dubbo简介">https://dcxiaolou.github.io/2019/10/20/Dubbo简介/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/Dubbo/" rel="tag"># Dubbo</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/20/仿京东管理项目之架构（二）/" rel="next" title="仿京东管理项目之架构（二）">
+                  <i class="fa fa-chevron-left"></i> 仿京东管理项目之架构（二）
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-简介"><span class="nav-number">1.</span> <span class="nav-text">Dubbo 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo的基本概念"><span class="nav-number">2.</span> <span class="nav-text">Dubbo的基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-支持的注册中心"><span class="nav-number">3.</span> <span class="nav-text">Dubbo 支持的注册中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-支持的协议"><span class="nav-number">4.</span> <span class="nav-text">Dubbo 支持的协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在项目中引入-dubbo"><span class="nav-number">5.</span> <span class="nav-text">如何在项目中引入 dubbo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dubbo-Admin-管理界面"><span class="nav-number">6.</span> <span class="nav-text">Dubbo Admin 管理界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dubbo-与-springcloud-的区别"><span class="nav-number">7.</span> <span class="nav-text">dubbo 与 springcloud 的区别</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0"
+      alt="dcxiaolou">
+  <p class="site-author-name" itemprop="name">dcxiaolou</p>
+  <div class="site-description" itemprop="description">今天的最好是明天最低的标准。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/dcxiaolou" title="GitHub &rarr; https://github.com/dcxiaolou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:3515668588@qq.com" title="E-Mail &rarr; mailto:3515668588@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http://macshuo.com/" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://example.com/" title="http://example.com/" rel="noopener" target="_blank">Title</a>
+        </li>
+      
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dcxiaolou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.4.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/muse.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
