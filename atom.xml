@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://dcxiaolou.github.io/"/>
-  <updated>2019-10-20T12:17:00.409Z</updated>
+  <updated>2019-10-21T14:04:25.909Z</updated>
   <id>https://dcxiaolou.github.io/</id>
   
   <author>
@@ -15,6 +15,68 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>FastDFS文件服务器</title>
+    <link href="https://dcxiaolou.github.io/2019/10/21/FastDFS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <id>https://dcxiaolou.github.io/2019/10/21/FastDFS文件服务器/</id>
+    <published>2019-10-21T13:52:58.000Z</published>
+    <updated>2019-10-21T14:04:25.909Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;FastDFS介绍&quot;&gt;&lt;a href=&quot;#FastDFS介绍&quot; class=&quot;headerlink&quot; title=&quot;FastDFS介绍&quot;&gt;&lt;/a&gt;FastDFS介绍&lt;/h3&gt;&lt;p&gt;FastDFS是一个由 C 语言实现的开源轻量级分布式文件系统，作者余庆(happyfish100)，支持 Linux、FreeBSD、AID 等 Unix 系统，解决了大数据存储和读写负载均衡等问题，适合存储 4KB~500MB 之间的小文件，如图片网站、短视频网站、文档、app 下载站等，UC、京东、支付宝、迅雷、酷狗等都有使用。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="FastDFS" scheme="https://dcxiaolou.github.io/categories/FastDFS/"/>
+    
+      <category term="文件服务器" scheme="https://dcxiaolou.github.io/categories/FastDFS/%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+    
+      <category term="FastDFS" scheme="https://dcxiaolou.github.io/tags/FastDFS/"/>
+    
+      <category term="文件服务器" scheme="https://dcxiaolou.github.io/tags/%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>仿京东商城项目之pms后台管理（三）</title>
+    <link href="https://dcxiaolou.github.io/2019/10/21/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E9%A1%B9%E7%9B%AE%E4%B9%8Bpms%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%EF%BC%88%E4%B8%89%EF%BC%89/"/>
+    <id>https://dcxiaolou.github.io/2019/10/21/仿京东商城项目之pms后台管理（三）/</id>
+    <published>2019-10-21T13:51:17.000Z</published>
+    <updated>2019-10-21T14:02:52.689Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;pms整体业务&quot;&gt;&lt;a href=&quot;#pms整体业务&quot; class=&quot;headerlink&quot; title=&quot;pms整体业务&quot;&gt;&lt;/a&gt;pms整体业务&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;三级分类的查询&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;商品的平台属性列表的增删改查&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;商品spu的添加&lt;/p&gt;
+&lt;p&gt;spu列表查询&lt;/p&gt;
+&lt;p&gt;spu的销售属性、属性值、图片上传&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;商品sku的添加&lt;/p&gt;
+&lt;p&gt;sku信息、关联的销售属性、关联的平台属性、图片&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+    
+      <category term="个人项目" scheme="https://dcxiaolou.github.io/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="电商" scheme="https://dcxiaolou.github.io/categories/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/%E7%94%B5%E5%95%86/"/>
+    
+    
+      <category term="个人项目" scheme="https://dcxiaolou.github.io/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/"/>
+    
+      <category term="电商" scheme="https://dcxiaolou.github.io/tags/%E7%94%B5%E5%95%86/"/>
+    
+  </entry>
   
   <entry>
     <title>Dubbo简介</title>

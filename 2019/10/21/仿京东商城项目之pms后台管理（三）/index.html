@@ -56,19 +56,26 @@
   };
 </script>
 
-  <meta name="description" content="环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2 在 Hadoop 中使用了 LZO 来进行压缩 数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中 在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误">
-<meta name="keywords" content="Flume,LZO">
+  <meta name="description" content="pms整体业务 三级分类的查询  商品的平台属性列表的增删改查  商品spu的添加 spu列表查询 spu的销售属性、属性值、图片上传  商品sku的添加 sku信息、关联的销售属性、关联的平台属性、图片">
+<meta name="keywords" content="个人项目,电商">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题">
-<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/index.html">
+<meta property="og:title" content="仿京东商城项目之pms后台管理（三）">
+<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/21/仿京东商城项目之pms后台管理（三）/index.html">
 <meta property="og:site_name" content="dcxiaolou&#39;s Blog">
-<meta property="og:description" content="环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2 在 Hadoop 中使用了 LZO 来进行压缩 数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中 在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误">
+<meta property="og:description" content="pms整体业务 三级分类的查询  商品的平台属性列表的增删改查  商品spu的添加 spu列表查询 spu的销售属性、属性值、图片上传  商品sku的添加 sku信息、关联的销售属性、关联的平台属性、图片">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-14T15:40:21.907Z">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662119877.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662001430.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662229509.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662406428.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662543940.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571663272279.png">
+<meta property="og:updated_time" content="2019-10-21T14:02:52.689Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题">
-<meta name="twitter:description" content="环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2 在 Hadoop 中使用了 LZO 来进行压缩 数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中 在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误">
-  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/">
+<meta name="twitter:title" content="仿京东商城项目之pms后台管理（三）">
+<meta name="twitter:description" content="pms整体业务 三级分类的查询  商品的平台属性列表的增删改查  商品spu的添加 spu列表查询 spu的销售属性、属性值、图片上传  商品sku的添加 sku信息、关联的销售属性、关联的平台属性、图片">
+<meta name="twitter:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662119877.png">
+  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/21/仿京东商城项目之pms后台管理（三）/">
 
 
 <script id="page-configurations">
@@ -82,7 +89,7 @@
   };
 </script>
 
-  <title>使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题 | dcxiaolou's Blog</title>
+  <title>仿京东商城项目之pms后台管理（三） | dcxiaolou's Blog</title>
   
 
 
@@ -257,7 +264,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/">
+    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/21/仿京东商城项目之pms后台管理（三）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="dcxiaolou">
@@ -269,7 +276,7 @@
       <meta itemprop="name" content="dcxiaolou's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题
+        <h1 class="post-title" itemprop="name headline">仿京东商城项目之pms后台管理（三）
 
           
         </h1>
@@ -285,7 +292,7 @@
                 
               
 
-              <time title="创建时间：2019-10-14 23:37:14 / 修改时间：23:40:21" itemprop="dateCreated datePublished" datetime="2019-10-14T23:37:14+08:00">2019-10-14</time>
+              <time title="创建时间：2019-10-21 21:51:17 / 修改时间：22:02:52" itemprop="dateCreated datePublished" datetime="2019-10-21T21:51:17+08:00">2019-10-21</time>
             </span>
           
             
@@ -298,14 +305,14 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flume/" itemprop="url" rel="index"><span itemprop="name">Flume</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/" itemprop="url" rel="index"><span itemprop="name">个人项目</span></a></span>
 
                 
                 
                   ，
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flume/LZO/" itemprop="url" rel="index"><span itemprop="name">LZO</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/电商/" itemprop="url" rel="index"><span itemprop="name">电商</span></a></span>
 
                 
                 
@@ -332,48 +339,54 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2</p>
-<p>在 Hadoop 中使用了 LZO 来进行压缩</p>
-<p>数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中</p>
-<p>在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误，同时在 Hadoop 的 web 界面中可以看见很多以 .lzo.tmp 结尾的文件</p>
-<p>解决：在使用 Flume 导入数据的节点上重新安装 LZO 和 LZOP</p>
-<a id="more"></a>
-
-<p>准备工作：</p>
-<p>yum -y install  lzo-devel  zlib-devel  gcc autoconf automake libtool</p>
-<ol>
-<li><p>安装 LZO</p>
-<p>wget <a href="http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz" target="_blank" rel="noopener">http://www.oberhumer.com/opensource/lzo/download/lzo-2.06.tar.gz</a><br>tar -zxvf lzo-2.06.tar.gz<br>./configure -enable-shared -prefix=/opt/module/lzo/<br>make &amp;&amp; make install</p>
+        <h3 id="pms整体业务"><a href="#pms整体业务" class="headerlink" title="pms整体业务"></a>pms整体业务</h3><ol>
+<li><p>三级分类的查询</p>
 </li>
-<li><p>安装 LZOP<br>wget <a href="http://www.lzop.org/download/lzop-1.03.tar.gz" target="_blank" rel="noopener">http://www.lzop.org/download/lzop-1.03.tar.gz</a><br>tar -zxvf lzop-1.03.tar.gz<br>./configure -enable-shared -prefix=/opt/module/lzop/<br>make  &amp;&amp; make install</p>
+<li><p>商品的平台属性列表的增删改查</p>
 </li>
-<li><p>把 LZOP 复制到/usr/bin/</p>
-<p>ln -s /opt/module/lzop/bin/lzop /usr/bin/lzop</p>
+<li><p>商品spu的添加</p>
+<p>spu列表查询</p>
+<p>spu的销售属性、属性值、图片上传</p>
 </li>
-<li><p>测试 LZOP</p>
-<p>lzop /tmp/logs/app-2019-01-01.log</p>
-<p>会生成一个以 .lzo 为后缀的压缩文件：/tmp/logs/app-2019-01-01.log.lzo</p>
-</li>
-<li><p>安装Hadoop-lzo</p>
-<p>先下载lzo的jar项目 <a href="https://github.com/twitter/hadoop-lzo/archive/master.zip" target="_blank" rel="noopener">https://github.com/twitter/hadoop-lzo/archive/master.zip</a></p>
-<p>下载后的文件名是hadoop-lzo-master，它是一个zip格式的压缩包，先进行解压，然后用maven编译。生成hadoop-lzo-0.4.20.jar。</p>
-</li>
-<li><p>配置 Hadoop</p>
-<p>在文件$HADOOP_HOME/etc/hadoop/hadoop-env.sh中追加如下内容：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=/usr/local/hadoop/lzo/lib</span><br></pre></td></tr></table></figure>
-
-<p>在文件$HADOOP_HOME/etc/hadoop/core-site.xml中追加如下内容：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codecs<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>org.apache.hadoop.io.compress.GzipCodec,</span><br><span class="line">                   org.apache.hadoop.io.compress.DefaultCodec,</span><br><span class="line">                   com.hadoop.compression.lzo.LzoCodec,</span><br><span class="line">                   com.hadoop.compression.lzo.LzopCodec,</span><br><span class="line">                   org.apache.hadoop.io.compress.BZip2Codec</span><br><span class="line">        <span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">name</span>&gt;</span>io.compression.codec.lzo.class<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.hadoop.compression.lzo.LzoCodec<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>在文件$HADOOP_HOME/etc/hadoop/mapred-site.xml中追加如下内容：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.compress.map.output<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.map.output.compression.codec<span class="tag">&lt;/<span class="name">name</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>com.hadoop.compression.lzo.LzoCodec<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapred.child.env<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>LD_LIBRARY_PATH=/usr/local/hadoop/lzo/lib<span class="tag">&lt;/<span class="name">value</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
+<li><p>商品sku的添加</p>
+<p>sku信息、关联的销售属性、关联的平台属性、图片</p>
 </li>
 </ol>
-<p>最后重启 Hadoop 和 Flume 即可解决问题</p>
-<p>参考：</p>
-<p><a href="https://blog.csdn.net/zhangzhaokun/article/details/17595325" target="_blank" rel="noopener">https://blog.csdn.net/zhangzhaokun/article/details/17595325</a></p>
+<a id="more"></a>
 
+<h3 id="pms数据库表的设计"><a href="#pms数据库表的设计" class="headerlink" title="pms数据库表的设计"></a>pms数据库表的设计</h3><h4 id="基本信息—分类"><a href="#基本信息—分类" class="headerlink" title="基本信息—分类"></a>基本信息—分类</h4><p>一般情况可以分为两级或者三级。该项目一共分为三级，即一级分类、二级分类、三级分类。</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662119877.png" alt="1571662119877"></p>
+<p>比如：家用电器是一级分类，电视是二级分类，那么超薄电视就是三级分类。</p>
+<p><strong>数据库结构</strong></p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662001430.png" alt="1571662001430"></p>
+<h4 id="基本信息—平台属性"><a href="#基本信息—平台属性" class="headerlink" title="基本信息—平台属性"></a>基本信息—平台属性</h4><p>平台属性和平台属性值</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662229509.png" alt="1571662229509"></p>
+<p>平台属性和平台属性值主要用于商品的检索，每个三级分类对应的属性都不同。 </p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662406428.png" alt="1571662406428"></p>
+<p>而每个商品对应的每种属性都有对应的属性值。</p>
+<p>比如电脑整机的一级分类下，有笔记本、游戏本、台式机、一体机的二级分类。</p>
+<p>笔记本这个二级分类又包含了处理器、屏幕尺寸、内存容量、硬盘容量、显卡类别这些属性。</p>
+<p>那么针对联想某个型号的笔记本，它作为笔记本这种分类，每个分类属性都有对应的值，cpu(属性)是i7(属性值)的，内存(属性)是8G(属性值)的，屏幕尺寸(属性)是14寸(属性值)的。</p>
+<h4 id="基本信息—销售属性"><a href="#基本信息—销售属性" class="headerlink" title="基本信息—销售属性"></a>基本信息—销售属性</h4><p>销售属性，就是商品详情页右边，可以通过销售属性来定位一组spu下的哪款sku。可以让当前的商品详情页，跳转到自己的“兄弟”商品。</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571662543940.png" alt="1571662543940"></p>
+<p>销售属性与平台属性</p>
+<p>​     一般每种商品的销售属性不会太多，大约1-4种。整个电商的销售属性种类也不会太多，大概10种以内。比如：颜色、尺寸、版本、套装等等。不同销售属性的组合也就构成了一个spu下多个sku的结构。</p>
+<h4 id="基本信息—spu与-sku"><a href="#基本信息—spu与-sku" class="headerlink" title="基本信息—spu与 sku"></a>基本信息—spu与 sku</h4><p>SPU(Standard Product Unit)：标准化产品单元。是商品信息聚合的最小单位，是一组可复用、易检索的标准化信息的集合，该集合描述了一个产品的特性。</p>
+<p>SKU=Stock Keeping Unit（库存量单位）。即库存进出计量的基本单元，可以是以件，盒，托盘等为单位。SKU这是对于大型连锁超市DC（配送中心）物流管理的一个必要的方法。现在已经被引申为产品统一编号的简称，每种产品均对应有唯一的SKU号。</p>
+<p>比如，咱们购买一台iPhoneX手机，iPhoneX手机就是一个SPU，但是你购买的时候，不可能是以iPhoneX手机为单位买的，商家也不可能以iPhoneX为单位记录库存。必须要以什么颜色什么版本的iPhoneX为单位。比如，你购买的是一台银色、128G内存的、支持联通网络的iPhoneX ，商家也会以这个单位来记录库存数。那这个更细致的单位就叫库存单元（SKU）。</p>
+<p>首先通过检索搜索出来的商品列表中，每个商品都是一个sku。每个sku都有自己独立的库存数。也就是说每一个商品详情展示都是一个sku。</p>
+<p>那spu又是干什么的呢？</p>
+<p>一般的电商系统你点击进去以后，都能看到这个商品关联了其他好几个类似的商品，而且这些商品很多的信息都是共用的，比如商品图片，海报、销售属性等。</p>
+<p>​    那么系统是靠什么把这些sku识别为一组的呢，那是这些sku都有一个公用的spu信息。而它们公共的信息，都放在spu信息下。</p>
+<h3 id="pms数据模型"><a href="#pms数据模型" class="headerlink" title="pms数据模型"></a>pms数据模型</h3><p>根据以上的需求，以此将关联的数据库表结构设计为如下：</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571663272279.png" alt="1571663272279"></p>
+<h3 id="后台管理模块开发"><a href="#后台管理模块开发" class="headerlink" title="后台管理模块开发"></a>后台管理模块开发</h3><p>搭建后台的manage-web模块</p>
+<p>application.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server.port=8083</span><br><span class="line"></span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line"></span><br><span class="line">spring.thymeleaf.mode=LEGACYHTML5</span><br><span class="line"></span><br><span class="line">spring.dubbo.application.name=manage-web</span><br><span class="line">spring.dubbo.registry.protocol=zookeeper</span><br><span class="line">spring.dubbo.registry.address=192.168.67.159:2181</span><br><span class="line">spring.dubbo.base-package=com.dcxiaolou.tinyjd</span><br><span class="line">spring.dubbo.protocol.name=dubbo</span><br><span class="line">spring.dubbo.consumer.timeout=10000</span><br><span class="line">spring.dubbo.consumer.check=false</span><br></pre></td></tr></table></figure>
+
+<p>搭建后台的manage-service模块</p>
+<p>application.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server.port=8073</span><br><span class="line"></span><br><span class="line">logging.level.root=debug</span><br><span class="line"></span><br><span class="line">spring.dubbo.application.name=manage-service</span><br><span class="line">spring.dubbo.registry.protocol=zookeeper</span><br><span class="line">spring.dubbo.registry.address=192.168.67.159:2181</span><br><span class="line">spring.dubbo.base-package=com.dcxiaolou.tinyjd</span><br><span class="line">spring.dubbo.protocol.name=dubbo</span><br><span class="line">spring.datasource.url=jdbc:mysql://192.168.159.3:3306/tinyjd?characterEncoding=UTF-8</span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=123456</span><br><span class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -389,7 +402,7 @@
     <strong>本文作者： </strong>dcxiaolou</li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/" title="使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题">https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/</a>
+    <a href="https://dcxiaolou.github.io/2019/10/21/仿京东商城项目之pms后台管理（三）/" title="仿京东商城项目之pms后台管理（三）">https://dcxiaolou.github.io/2019/10/21/仿京东商城项目之pms后台管理（三）/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
@@ -404,9 +417,9 @@
           
           <div class="post-tags">
             
-              <a href="/tags/Flume/" rel="tag"># Flume</a>
+              <a href="/tags/个人项目/" rel="tag"># 个人项目</a>
             
-              <a href="/tags/LZO/" rel="tag"># LZO</a>
+              <a href="/tags/电商/" rel="tag"># 电商</a>
             
           </div>
         
@@ -416,8 +429,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/09/19/Typroa及Markdown语法/" rel="next" title="Typora及Markdown语法">
-                  <i class="fa fa-chevron-left"></i> Typora及Markdown语法
+                <a href="/2019/10/20/Dubbo简介/" rel="next" title="Dubbo简介">
+                  <i class="fa fa-chevron-left"></i> Dubbo简介
                 </a>
               
             </div>
@@ -426,8 +439,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/10/18/仿京东商城项目之简介（一）/" rel="prev" title="仿京东商城项目之简介（一）">
-                  仿京东商城项目之简介（一） <i class="fa fa-chevron-right"></i>
+                <a href="/2019/10/21/FastDFS文件服务器/" rel="prev" title="FastDFS文件服务器">
+                  FastDFS文件服务器 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -477,6 +490,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#pms整体业务"><span class="nav-number">1.</span> <span class="nav-text">pms整体业务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pms数据库表的设计"><span class="nav-number">2.</span> <span class="nav-text">pms数据库表的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本信息—分类"><span class="nav-number">2.1.</span> <span class="nav-text">基本信息—分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本信息—平台属性"><span class="nav-number">2.2.</span> <span class="nav-text">基本信息—平台属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本信息—销售属性"><span class="nav-number">2.3.</span> <span class="nav-text">基本信息—销售属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本信息—spu与-sku"><span class="nav-number">2.4.</span> <span class="nav-text">基本信息—spu与 sku</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pms数据模型"><span class="nav-number">3.</span> <span class="nav-text">pms数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后台管理模块开发"><span class="nav-number">4.</span> <span class="nav-text">后台管理模块开发</span></a></li></ol></div>
+        
       </div>
       <!--/noindex-->
 

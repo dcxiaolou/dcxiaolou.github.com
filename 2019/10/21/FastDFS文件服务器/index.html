@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="dcxiaolou's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="FastDFS介绍FastDFS是一个由 C 语言实现的开源轻量级分布式文件系统，作者余庆(happyfish100)，支持 Linux、FreeBSD、AID 等 Unix 系统，解决了大数据存储和读写负载均衡等问题，适合存储 4KB~500MB 之间的小文件，如图片网站、短视频网站、文档、app 下载站等，UC、京东、支付宝、迅雷、酷狗等都有使用。">
+<meta name="keywords" content="FastDFS,文件服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FastDFS文件服务器">
+<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/21/FastDFS文件服务器/index.html">
+<meta property="og:site_name" content="dcxiaolou&#39;s Blog">
+<meta property="og:description" content="FastDFS介绍FastDFS是一个由 C 语言实现的开源轻量级分布式文件系统，作者余庆(happyfish100)，支持 Linux、FreeBSD、AID 等 Unix 系统，解决了大数据存储和读写负载均衡等问题，适合存储 4KB~500MB 之间的小文件，如图片网站、短视频网站、文档、app 下载站等，UC、京东、支付宝、迅雷、酷狗等都有使用。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571663939445.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571664686444.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665043959.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665053862.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665070992.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665088160.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665113745.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665118975.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665143417.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665149342.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665167013.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665249135.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665260190.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665270229.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665278134.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665283508.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665375692.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665397632.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665417099.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665433141.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665678511.png">
+<meta property="og:updated_time" content="2019-10-21T14:04:25.909Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FastDFS文件服务器">
+<meta name="twitter:description" content="FastDFS介绍FastDFS是一个由 C 语言实现的开源轻量级分布式文件系统，作者余庆(happyfish100)，支持 Linux、FreeBSD、AID 等 Unix 系统，解决了大数据存储和读写负载均衡等问题，适合存储 4KB~500MB 之间的小文件，如图片网站、短视频网站、文档、app 下载站等，UC、京东、支付宝、迅雷、酷狗等都有使用。">
+<meta name="twitter:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571663939445.png">
+  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/21/FastDFS文件服务器/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>FastDFS文件服务器 | dcxiaolou's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dcxiaolou's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/21/FastDFS文件服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dcxiaolou">
+      <meta itemprop="description" content="今天的最好是明天最低的标准。">
+      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dcxiaolou's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">FastDFS文件服务器
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-21 21:52:58 / 修改时间：22:04:25" itemprop="dateCreated datePublished" datetime="2019-10-21T21:52:58+08:00">2019-10-21</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/FastDFS/" itemprop="url" rel="index"><span itemprop="name">FastDFS</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/FastDFS/文件服务器/" itemprop="url" rel="index"><span itemprop="name">文件服务器</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="FastDFS介绍"><a href="#FastDFS介绍" class="headerlink" title="FastDFS介绍"></a>FastDFS介绍</h3><p>FastDFS是一个由 C 语言实现的开源轻量级分布式文件系统，作者余庆(happyfish100)，支持 Linux、FreeBSD、AID 等 Unix 系统，解决了大数据存储和读写负载均衡等问题，适合存储 4KB~500MB 之间的小文件，如图片网站、短视频网站、文档、app 下载站等，UC、京东、支付宝、迅雷、酷狗等都有使用。</p>
+<a id="more"></a>
+
+<h3 id="FastDFS上传的流程"><a href="#FastDFS上传的流程" class="headerlink" title="FastDFS上传的流程"></a>FastDFS上传的流程</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571663939445.png" alt="1571663939445"></p>
+<p>FastDFS架构包括 Tracker server和Storage server。客户端请求Tracker server进行文件上传、下载，通过Tracker server调度最终由Storage server完成文件上传和下载。</p>
+<p>Tracker Server作用是负载均衡和调度，通过Tracker server在文件上传时可以根据一些策略找到Storage server提供文件上传服务。可以将tracker称为追踪服务器或调度服务器。</p>
+<p>Storage Server作用是文件存储，客户端上传的文件最终存储在Storage服务器上，Storage server没有实现自己的文件系统而是利用操作系统的文件系统来管理文件。可以将storage称为存储服务器。</p>
+<h3 id="FastDFS下载的流程"><a href="#FastDFS下载的流程" class="headerlink" title="FastDFS下载的流程"></a>FastDFS下载的流程</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571664686444.png" alt="1571664686444"></p>
+<h3 id="FastDFS的安装"><a href="#FastDFS的安装" class="headerlink" title="FastDFS的安装"></a>FastDFS的安装</h3><h4 id="安装顺序"><a href="#安装顺序" class="headerlink" title="安装顺序"></a>安装顺序</h4><ol>
+<li><p>libfastcommon</p>
+</li>
+<li><p>fdfs_tracker</p>
+<p>依赖：Gcc、libevent、perl</p>
+</li>
+<li><p>fdfs_storage</p>
+</li>
+<li><p>FastDFS-nginx-module</p>
+</li>
+<li><p>nginx</p>
+<p>依赖：pcre-develzlib-devel</p>
+</li>
+</ol>
+<h4 id="功能文件目录"><a href="#功能文件目录" class="headerlink" title="功能文件目录"></a>功能文件目录</h4><p>opt/fastdfs 数据存储目录</p>
+<p>usr/local/fdfs 启动文件目录</p>
+<p>etc/fdfs 配置文件目录</p>
+<p>usr/bin/fdfs_trackerd 启动配置</p>
+<p>etc/init.d/fdfs_trackerd 启动服务脚本</p>
+<h4 id="FastDFS–tracker安装"><a href="#FastDFS–tracker安装" class="headerlink" title="FastDFS–tracker安装"></a>FastDFS–tracker安装</h4><p><strong>FastDFS安装环境</strong></p>
+<p>FastDFS是C语言开发，建议在linux上运行，本教程使用Centos7.4作为安装环境。</p>
+<p>安装gcc 依赖环境 yum install gcc-c++ -y</p>
+<p><strong>libevent</strong></p>
+<p>yum -y install libevent</p>
+<p>如果没有perl库，需要使用yum install perl* 命令安装一下</p>
+<p>yum -y install zlib zlib-devel pcre pcre-devel gcc gcc-c++ openssl openssl-devel libevent libevent-devel perl unzip net-tools wget</p>
+<p><strong>安装libfastcommon</strong></p>
+<p>上传压缩包文件libfastcommonV1.0.7.tar.gz 到 /usr/local目录下，并解压。</p>
+<p>tar -zxvf libfastcommonV1.0.7.tar.gz</p>
+<p>进入到解压后的文件夹中</p>
+<p>进行编译 ./make.sh</p>
+<p>如果出现编译perl 不识别 运行下面这段命令</p>
+<p><code># yum -y install zlib zlib-devel pcre pcre-devel gcc gcc-c++ openssl openssl-devel libevent libevent-devel perl unzip net-tools wget</code></p>
+<p>安装 ./make.sh install</p>
+<p>注意：libfastcommon安装好后会自动将库文件拷贝至/usr/lib64下，由于FastDFS程序引用usr/lib目录所以需要将/usr/lib64下的库文件拷贝至/usr/lib下。</p>
+<p><strong>安装tracker</strong></p>
+<p>上传资料FastDFS_v5.05.tar.gz到 /usr/local 目录下</p>
+<p>解压编译安装</p>
+<p>tar -zxvf FastDFS_v5.05.tar.gz</p>
+<p>cd FastDFS</p>
+<p>./make.sh</p>
+<p>./make.sh install</p>
+<p>安装成功之后，将安装目录下的conf下的文件拷贝到/etc/fdfs/下。</p>
+<p>cd conf</p>
+<p>cp  *  /etc/fdfs/</p>
+<p>修改配置文件</p>
+<p>vim /etc/fdfs/tracker.conf</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665043959.png" alt="1571665043959"></p>
+<p>在/opt/下创建fastdfs文件夹</p>
+<p>mkdir /opt/fastdfs</p>
+<p><strong>设置启动项</strong></p>
+<p>启动服务</p>
+<p>mkdir  /usr/local/fdfs   </p>
+<p>拷贝安装目录下stop.sh 和restart.sh 到/usr/local/fdfs/</p>
+<p>cp restart.sh  /usr/local/fdfs/</p>
+<p>cp stop.sh  /usr/local/fdfs/</p>
+<p><strong>修改启动脚本</strong></p>
+<p>vim /etc/init.d/fdfs_trackerd</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665053862.png" alt="1571665053862"></p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665070992.png" alt="1571665070992"></p>
+<p>把启动脚本中的路径按照上图修改</p>
+<p>修改完毕后</p>
+<p>注册服务</p>
+<p>chkconfig  –add  fdfs_trackerd</p>
+<p>然后可以用service fdfs_trackerd start 启动测试 如下图</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665088160.png" alt="1571665088160"></p>
+<h4 id="FastDFS—storage配置"><a href="#FastDFS—storage配置" class="headerlink" title="FastDFS—storage配置"></a>FastDFS—storage配置</h4><p><strong>修改配置文件</strong></p>
+<p>vim /etc/fdfs/storage.conf</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665113745.png" alt="1571665113745"></p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665118975.png" alt="1571665118975"></p>
+<p><strong>创建fdfs_storage文件夹</strong></p>
+<p>mkdir /opt/fastdfs/fdfs_storage</p>
+<p><strong>设置服务</strong></p>
+<p>vim  /etc/init.d/fdfs_storaged</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665143417.png" alt="1571665143417"></p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665149342.png" alt="1571665149342"></p>
+<p>chkconfig  - -add  fdfs_storaged</p>
+<p>启动服务</p>
+<p>service fdfs_storaged start </p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665167013.png" alt="1571665167013"></p>
+<p><strong>上传图片测试</strong></p>
+<p>FastDFS安装成功可通过/usr/bin/fdfs_test测试上传、下载等操作。</p>
+<p>修改/etc/fdfs/client.conf</p>
+<p>[root@localhost ~]# vim /etc/fdfs/client.conf</p>
+<p>base_path=/opt/fastdfs</p>
+<p>tracker_server=192.168.67.163:22122</p>
+<p>比如将/root下的日志上传到FastDFS中：</p>
+<p>/usr/bin/fdfs_test  /etc/fdfs/client.conf  upload  /root/winteriscoming.jpg   </p>
+<p>对应的上传路径：</p>
+<p>/opt/fastdfs/fdfs_storage/data /00/00/wKhDo1qipbiAJC6iAAB1tayPlqs094_big.jpg</p>
+<p><strong>FastDFS整合nginx</strong></p>
+<p>安装nginx整合插件fastdfs-nginx-module</p>
+<p>上传fastdfs-nginx-module_v1.16.tar.gz上传到 /usr/local，并解压</p>
+<p>tar -zxvf fastdfs-nginx-module_v1.16.tar.gz</p>
+<p>编辑配置文件：修改config文件将/usr/local/路径改为/usr/</p>
+<p>(这里要修改三个路径)</p>
+<p>vim fastdfs-nginx-module/src/config</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665249135.png" alt="1571665249135"></p>
+<p>将FastDFS-nginx-module/src下的mod_fastdfs.conf拷贝至/etc/fdfs/下</p>
+<p>[root@localhost src]# cp mod_fastdfs.conf /etc/fdfs/</p>
+<p>并修改mod_fastdfs.conf的内容：</p>
+<p>vim /etc/fdfs/mod_fastdfs.conf</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665260190.png" alt="1571665260190"></p>
+<p>继续修改</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665270229.png" alt="1571665270229"></p>
+<p>继续修改 url中包含group名称</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665278134.png" alt="1571665278134"></p>
+<p>继续修改  #指定文件存储路径</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665283508.png" alt="1571665283508"></p>
+<p>将libfdfsclient.so拷贝至/usr/lib下</p>
+<p>[root@localhost src]# cp /usr/lib64/libfdfsclient.so /usr/lib/</p>
+<h4 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h4><p><strong>创建nginx/client目录</strong></p>
+<p>[root@localhost src]# mkdir -p /var/temp/nginx/client</p>
+<p><strong>安装环境</strong></p>
+<p>安装pcre库</p>
+<p>yum -y install pcre-devel</p>
+<p>安装zlib库</p>
+<p>yum install -y zlib-devel</p>
+<p><strong>上传nginx</strong></p>
+<p>上传nginx压缩包到/usr/local目录下，解压</p>
+<p>tar -zxvf nginx-1.12.2.tar.gz</p>
+<p>添加fastdfs-nginx-module模块</p>
+<p>cd nginx-1.8.0</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--prefix=/usr/<span class="built_in">local</span>/nginx \</span><br><span class="line">--pid-path=/var/run/nginx/nginx.pid \</span><br><span class="line">--lock-path=/var/lock/nginx.lock \</span><br><span class="line">--error-log-path=/var/<span class="built_in">log</span>/nginx/error.log \</span><br><span class="line">--http-log-path=/var/<span class="built_in">log</span>/nginx/access.log \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--http-client-body-temp-path=/var/temp/nginx/client \</span><br><span class="line">--http-proxy-temp-path=/var/temp/nginx/proxy \</span><br><span class="line">--http-fastcgi-temp-path=/var/temp/nginx/fastcgi \</span><br><span class="line">--http-uwsgi-temp-path=/var/temp/nginx/uwsgi \</span><br><span class="line">--http-scgi-temp-path=/var/temp/nginx/scgi \</span><br><span class="line">--add-module=/usr/<span class="built_in">local</span>/fastdfs-nginx-module/src</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665375692.png" alt="1571665375692"></p>
+<p>配置成功</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665397632.png" alt="1571665397632"></p>
+<p>编译</p>
+<p>[root@localhost nginx-1.12.2]# make</p>
+<p>安装</p>
+<p>[root@localhost nginx-1.12.2]# make install</p>
+<p>编辑nginx.conf</p>
+<p>vim /usr/local/nginx/conf/nginx.conf</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665417099.png" alt="1571665417099"></p>
+<p>启动nginx</p>
+<p>/usr/local/nginx/sbin/nginx</p>
+<p>设置开机启动</p>
+<p>[root@iZ2zednyjjxxq7k3i2dwsfZ nginx-1.12.2]# vim /etc/rc.d/rc.local</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665433141.png" alt="1571665433141"></p>
+<p>需要关闭防火墙</p>
+<p>service iptables stop</p>
+<p>永久关闭 chkconfig  iptables  off</p>
+<p>测试</p>
+<p> /usr/bin/fdfs_test /etc/fdfs/client.conf upload /root/ty.jpg</p>
+<h3 id="使用Java客户端调用FastDFS"><a href="#使用Java客户端调用FastDFS" class="headerlink" title="使用Java客户端调用FastDFS"></a>使用Java客户端调用FastDFS</h3><p><strong>加载Maven依赖</strong></p>
+<p>fastdfs 没有在中心仓库中提供获取的依赖坐标。</p>
+<p>只能自己通过源码方式编译，打好jar 包，安装到本地仓库。</p>
+<p>官方仓库地址：</p>
+<p><a href="https://github.com/happyfish100/fastdfs-client-java" target="_blank" rel="noopener">https://github.com/happyfish100/fastdfs-client-java</a></p>
+<p>直接用idea 直接把这个源码作为模块导入工程</p>
+<p>别的不用改，只把pom.xml中的版本改成1.27。</p>
+<p>然后右边 执行install 就好了</p>
+<p>安装好了 ，别的模块就可以直接使用这个坐标了。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">**groupId**</span>&gt;</span>org.csource<span class="tag">&lt;/<span class="name">**groupId**</span>&gt;</span>   </span><br><span class="line"><span class="tag">&lt;<span class="name">**artifactId**</span>&gt;</span>fastdfs-client-java<span class="tag">&lt;/<span class="name">**artifactId**</span>&gt;</span>   <span class="tag">&lt;<span class="name">**version**</span>&gt;</span>1.27<span class="tag">&lt;/<span class="name">**version**</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>而这个fastdfs-client-java模块可以从idea 中删除。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">textFileUpload</span><span class="params">()</span> <span class="keyword">throws</span> IOException, MyException </span>&#123;</span><br><span class="line">    String file = <span class="keyword">this</span>.getClass().getResource(<span class="string">"/tracker.conf"</span>).getFile();</span><br><span class="line">    ClientGlobal.init(file);</span><br><span class="line">    TrackerClient trackerClient=<span class="keyword">new</span> TrackerClient();</span><br><span class="line">    TrackerServer trackerServer=trackerClient.getConnection();</span><br><span class="line">    StorageClient storageClient=<span class="keyword">new</span> StorageClient(trackerServer,<span class="keyword">null</span>);</span><br><span class="line">    String orginalFilename=<span class="string">"e://victor.jpg"</span>;</span><br><span class="line">    String[] upload_file = storageClient.upload_file(orginalFilename, <span class="string">"jpg"</span>, <span class="keyword">null</span>);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; upload_file.length; i++) &#123;</span><br><span class="line">        String s = upload_file[i];</span><br><span class="line">        System.out.println(<span class="string">"s = "</span> + s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置tracker.conf文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tracker_server=192.168.67.162:22122</span><br><span class="line"></span><br><span class="line"># 连接超时时间，针对socket套接字函数connect，默认为30秒</span><br><span class="line">connect_timeout=30000</span><br><span class="line"></span><br><span class="line"># 网络通讯超时时间，默认是60秒</span><br><span class="line">network_timeout=60000</span><br></pre></td></tr></table></figure>
+
+<p>打印结果</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571665678511.png" alt="1571665678511"></p>
+<p>这个打印结果实际上就是我们访问的路径，加上服务器地址我们可以拼接成一个字符串</p>
+<p><a href="http://192.168.67.163/group1/M00/00/00/wKhDo1qjU2qAWKQmAAATla901AQ534.jpg" target="_blank" rel="noopener">http://192.168.67.163/group1/M00/00/00/wKhDo1qjU2qAWKQmAAATla901AQ534.jpg</a></p>
+<p>直接放到浏览器去访问</p>
+<p>对接到业务模块中</p>
+<p>在修改FileUploadController的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value</span>(<span class="string">"$&#123;fileServer.url&#125;"</span>)</span><br><span class="line">String fileUrl;</span><br><span class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"fileUpload"</span>,method = RequestMethod.POST)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">fileUpload</span><span class="params">(@RequestParam(<span class="string">"file"</span>)</span> MultipartFile file) <span class="keyword">throws</span> IOException, MyException </span>&#123;</span><br><span class="line">    String imgUrl=fileUrl;</span><br><span class="line">    <span class="keyword">if</span>(file!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        System.out.println(<span class="string">"multipartFile = "</span> + file.getName()+<span class="string">"|"</span>+file.getSize());</span><br><span class="line"></span><br><span class="line">            String configFile = <span class="keyword">this</span>.getClass().getResource(<span class="string">"/tracker.conf"</span>).getFile();</span><br><span class="line">            ClientGlobal.init(configFile);</span><br><span class="line">            TrackerClient trackerClient=<span class="keyword">new</span> TrackerClient();</span><br><span class="line">            TrackerServer trackerServer=trackerClient.getConnection();</span><br><span class="line">            StorageClient storageClient=<span class="keyword">new</span> StorageClient(trackerServer,<span class="keyword">null</span>);</span><br><span class="line">            String filename=    file.getOriginalFilename();</span><br><span class="line">            String extName = StringUtils.substringAfterLast(filename, <span class="string">"."</span>);</span><br><span class="line"></span><br><span class="line">            String[] upload_file = storageClient.upload_file(file.getBytes(), extName, <span class="keyword">null</span>);</span><br><span class="line">            imgUrl=fileUrl ;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; upload_file.length; i++) &#123;</span><br><span class="line">                String path = upload_file[i];</span><br><span class="line">                imgUrl+=<span class="string">"/"</span>+path;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>利用@Value(“${fileServer.url}”)标签可以引用application.properties中的值</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>dcxiaolou</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dcxiaolou.github.io/2019/10/21/FastDFS文件服务器/" title="FastDFS文件服务器">https://dcxiaolou.github.io/2019/10/21/FastDFS文件服务器/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/FastDFS/" rel="tag"># FastDFS</a>
+            
+              <a href="/tags/文件服务器/" rel="tag"># 文件服务器</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/21/仿京东商城项目之pms后台管理（三）/" rel="next" title="仿京东商城项目之pms后台管理（三）">
+                  <i class="fa fa-chevron-left"></i> 仿京东商城项目之pms后台管理（三）
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS介绍"><span class="nav-number">1.</span> <span class="nav-text">FastDFS介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS上传的流程"><span class="nav-number">2.</span> <span class="nav-text">FastDFS上传的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS下载的流程"><span class="nav-number">3.</span> <span class="nav-text">FastDFS下载的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FastDFS的安装"><span class="nav-number">4.</span> <span class="nav-text">FastDFS的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装顺序"><span class="nav-number">4.1.</span> <span class="nav-text">安装顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能文件目录"><span class="nav-number">4.2.</span> <span class="nav-text">功能文件目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FastDFS–tracker安装"><span class="nav-number">4.3.</span> <span class="nav-text">FastDFS–tracker安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FastDFS—storage配置"><span class="nav-number">4.4.</span> <span class="nav-text">FastDFS—storage配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装nginx"><span class="nav-number">4.5.</span> <span class="nav-text">安装nginx</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Java客户端调用FastDFS"><span class="nav-number">5.</span> <span class="nav-text">使用Java客户端调用FastDFS</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0"
+      alt="dcxiaolou">
+  <p class="site-author-name" itemprop="name">dcxiaolou</p>
+  <div class="site-description" itemprop="description">今天的最好是明天最低的标准。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/dcxiaolou" title="GitHub &rarr; https://github.com/dcxiaolou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:3515668588@qq.com" title="E-Mail &rarr; mailto:3515668588@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http://macshuo.com/" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://example.com/" title="http://example.com/" rel="noopener" target="_blank">Title</a>
+        </li>
+      
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dcxiaolou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.4.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/muse.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
