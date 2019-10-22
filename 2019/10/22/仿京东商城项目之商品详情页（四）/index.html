@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+  <link rel="alternate" href="/atom.xml" title="dcxiaolou's Blog" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"hide","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="商品详情页业务介绍商品详情页，简单说就是以购物者的角度展现一个sku的详情信息。 这个页面不同于传统的crud的详情页，使用者并不是管理员，需要对信息进行查删改查，取而代之的是点击购买、放入购物车、切换颜色等等。 另外一个特点就是该页面的高访问量，虽然只是一个查询操作，但是由于频繁的访问所以我们必须对其性能进行最大程度的优化。">
+<meta name="keywords" content="个人项目,电商">
+<meta property="og:type" content="article">
+<meta property="og:title" content="仿京东商城项目之商品详情页（四）">
+<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/22/仿京东商城项目之商品详情页（四）/index.html">
+<meta property="og:site_name" content="dcxiaolou&#39;s Blog">
+<meta property="og:description" content="商品详情页业务介绍商品详情页，简单说就是以购物者的角度展现一个sku的详情信息。 这个页面不同于传统的crud的详情页，使用者并不是管理员，需要对信息进行查删改查，取而代之的是点击购买、放入购物车、切换颜色等等。 另外一个特点就是该页面的高访问量，虽然只是一个查询操作，但是由于频繁的访问所以我们必须对其性能进行最大程度的优化。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571741201706.png">
+<meta property="og:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571742712660.png">
+<meta property="og:updated_time" content="2019-10-22T11:34:18.173Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="仿京东商城项目之商品详情页（四）">
+<meta name="twitter:description" content="商品详情页业务介绍商品详情页，简单说就是以购物者的角度展现一个sku的详情信息。 这个页面不同于传统的crud的详情页，使用者并不是管理员，需要对信息进行查删改查，取而代之的是点击购买、放入购物车、切换颜色等等。 另外一个特点就是该页面的高访问量，虽然只是一个查询操作，但是由于频繁的访问所以我们必须对其性能进行最大程度的优化。">
+<meta name="twitter:image" content="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571741201706.png">
+  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/22/仿京东商城项目之商品详情页（四）/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>仿京东商城项目之商品详情页（四） | dcxiaolou's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">dcxiaolou's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
+  </ul>
+
+    
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/22/仿京东商城项目之商品详情页（四）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="dcxiaolou">
+      <meta itemprop="description" content="今天的最好是明天最低的标准。">
+      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="dcxiaolou's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">仿京东商城项目之商品详情页（四）
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-22 19:27:19 / 修改时间：19:34:18" itemprop="dateCreated datePublished" datetime="2019-10-22T19:27:19+08:00">2019-10-22</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/" itemprop="url" rel="index"><span itemprop="name">个人项目</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/电商/" itemprop="url" rel="index"><span itemprop="name">电商</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="商品详情页"><a href="#商品详情页" class="headerlink" title="商品详情页"></a>商品详情页</h3><h4 id="业务介绍"><a href="#业务介绍" class="headerlink" title="业务介绍"></a>业务介绍</h4><p>商品详情页，简单说就是以购物者的角度展现一个sku的详情信息。</p>
+<p>这个页面不同于传统的crud的详情页，使用者并不是管理员，需要对信息进行查删改查，取而代之的是点击购买、放入购物车、切换颜色等等。</p>
+<p>另外一个特点就是该页面的高访问量，虽然只是一个查询操作，但是由于频繁的访问所以我们必须对其性能进行最大程度的优化。</p>
+<a id="more"></a>
+
+<h4 id="难点分析"><a href="#难点分析" class="headerlink" title="难点分析"></a>难点分析</h4><ol>
+<li><p>光从功能角度上来说，并没有太多难点，唯一实现起来麻烦的就是用户对于不同销售属性的切换操作。</p>
+<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571741201706.png" alt="1571741201706"></p>
+</li>
+<li><p>从性能角度来看，需要最大程度的提升页面的访问速度。</p>
+</li>
+</ol>
+<h4 id="功能开发"><a href="#功能开发" class="headerlink" title="功能开发"></a>功能开发</h4><p>详情页功能，只增加一个web模块，后台调用商品管理的模块manage-service</p>
+<p>item-web模块负责前端的页面渲染和控制层(controller)。</p>
+<p>pom.xml </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">"http://maven.apache.org/POM/4.0.0"</span> <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.dcxiaolou.tinyJD<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tinyjd-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.dcxiaolou.tinyJD<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tinyjd-item-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>tinyjd-item-web<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.dcxiaolou.tinyJD<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tinyjd-web-util<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.dcxiaolou.tinyJD<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tinyjd-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>搭建完成后。</p>
+<p>首先导入前端页面</p>
+<p>静态页资源全部拷贝到static目录中，如果没有该目录请手工创建</p>
+<p>动态的html文件拷贝到templates目录中</p>
+<p>编写Controller类（入口方法）</p>
+<p>application.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server.port=8084</span><br><span class="line">// 禁用thymeleaf缓存</span><br><span class="line">spring.thymeleaf.cache=false</span><br><span class="line">// 关闭thymeleaf的html5语法检查</span><br><span class="line">spring.thymeleaf.mode=LEGACYHTML5</span><br></pre></td></tr></table></figure>
+
+<p>把启动类TinyjdItemWebApplication提到和item平级的目录中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">或者增加@ComponentScan(basePackages = &quot;com.atguigu.gmall&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>然后启动服务、测试</p>
+<p>可以看到商品详情页的静态页面。</p>
+<p>后台实现在tinyjd-item-web模块中</p>
+<p>增加ItemController</p>
+<p>tinyjd-manage-service中增加后台实现类</p>
+<h3 id="如何销售属性切换当前商品sku"><a href="#如何销售属性切换当前商品sku" class="headerlink" title="如何销售属性切换当前商品sku"></a>如何销售属性切换当前商品sku</h3><h4 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h4><ol>
+<li>查出该商品的spu的所有销售属性和属性值</li>
+<li>标识出本商品对应的销售属性 </li>
+<li>点击其他销售属性值的组合，跳转到另外的sku页面</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">	sa.id,</span><br><span class="line">	sa.spu_id,</span><br><span class="line">	sa.sale_attr_name,</span><br><span class="line">	sa.sale_attr_id,</span><br><span class="line">	sv.id sale_attr_value_id,</span><br><span class="line">	sv.sale_attr_value_name,</span><br><span class="line">  skv.sku_id,</span><br><span class="line">  <span class="keyword">if</span>(skv.sku_id <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span>,<span class="number">1</span>,<span class="number">0</span>) <span class="keyword">as</span> isCheck</span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">	spu_sale_attr sa <span class="keyword">inner</span> <span class="keyword">JOIN</span></span><br><span class="line">	spu_sale_attr_value sv </span><br><span class="line">	<span class="keyword">on</span> sa.sale_attr_id = sv.sale_attr_id <span class="keyword">and</span> sa.spu_id = sv.spu_id <span class="keyword">and</span> sa.spu_id = <span class="number">25</span></span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> sku_sale_attr_value skv </span><br><span class="line"><span class="keyword">on</span> skv.sale_attr_id = sa.sale_attr_id <span class="keyword">and</span> skv.sale_attr_value_id = sv.id <span class="keyword">and</span> skv.sku_id = <span class="number">47</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span></span><br><span class="line">	sv.sale_attr_id</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span>  skv.*</span><br><span class="line"><span class="keyword">FROM</span> sku_sale_attr_value skv</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span>  sku_info  sk  <span class="keyword">ON</span> skv.sku_id =sk.id <span class="keyword">and</span> sk.spu_id=<span class="number">25</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> skv.sku_id , skv.sale_attr_id</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> skv.*  <span class="keyword">from</span>  sku_sale_attr_value skv , sku_info  sku </span><br><span class="line"><span class="keyword">where</span> skv.sku_id =sku.id <span class="keyword">and</span> sku.spu_id=<span class="number">25</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> sku.id , skv.sale_attr_id</span><br></pre></td></tr></table></figure>
+
+<h4 id="查询出sku对应spu的销售属性"><a href="#查询出sku对应spu的销售属性" class="headerlink" title="查询出sku对应spu的销售属性"></a>查询出sku对应spu的销售属性</h4><p>第1、2条通过此sql实现</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> sa.id ,sa.spu_id, sa.sale_attr_name,sa.sale_attr_id,</span><br><span class="line">        sv.id sale_attr_value_id,</span><br><span class="line">        sv.sale_attr_value_name,</span><br><span class="line">        skv.sku_id,</span><br><span class="line">        <span class="keyword">IF</span>(skv.sku_id <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,<span class="number">1</span>,<span class="number">0</span>)  is_check</span><br><span class="line">        <span class="keyword">FROM</span> spu_sale_attr sa </span><br><span class="line">        <span class="keyword">INNER</span> <span class="keyword">JOIN</span> spu_sale_attr_value  sv <span class="keyword">ON</span>  sa.spu_id=sv.spu_id <span class="keyword">AND</span> sa.sale_attr_id=sv.sale_attr_id</span><br><span class="line">        <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> sku_sale_attr_value skv <span class="keyword">ON</span> skv.sale_attr_id= sa.sale_attr_id <span class="keyword">AND</span> skv.sale_attr_value_id=sv.id <span class="keyword">AND</span> skv.sku_id=<span class="number">10</span></span><br><span class="line">        <span class="keyword">WHERE</span> sa.spu_id=<span class="number">24</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> sv.sale_attr_id,sv.id</span><br></pre></td></tr></table></figure>
+
+<p>此sql列出所有该spu的销售属性和属性值，并关联某skuid如果能关联上is_check设为1，否则设为0。</p>
+<p>页面开发部分</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"box-attr-2 clear"</span>  <span class="attr">th:each</span>=<span class="string">"spuSaleAttr:$&#123;spuSaleAttrListCheckBySku&#125;"</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dl</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dt</span> <span class="attr">th:text</span>=<span class="string">"$&#123;spuSaleAttr.saleAttrName&#125;"</span>&gt;</span>选择属性<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dd</span> <span class="attr">th:class</span>=<span class="string">"($&#123;saleAttrValue.isCheck&#125;=='1')?'redborder':''"</span> <span class="attr">th:each</span>=<span class="string">"saleAttrValue:$&#123;spuSaleAttr.spuSaleAttrValueList&#125;"</span>&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">div</span> <span class="attr">th:value</span>=<span class="string">"$&#123;saleAttrValue.id&#125;"</span> <span class="attr">th:text</span>=<span class="string">"$&#123;saleAttrValue.saleAttrValueName&#125;"</span>&gt;</span></span><br><span class="line">              属性值</span><br><span class="line">         <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dd</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dl</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中th:class的设置，redborder是一个自定义的样式类，主要是边框设红。如果isCheck=1标识当前这个sku的所拥有的属性值，所以锁定为红边框。</p>
+<h3 id="点击其他销售属性值的组合，跳转到另外的sku页面"><a href="#点击其他销售属性值的组合，跳转到另外的sku页面" class="headerlink" title="点击其他销售属性值的组合，跳转到另外的sku页面"></a>点击其他销售属性值的组合，跳转到另外的sku页面</h3><p>实现思路： </p>
+<ol>
+<li><p>从页面中获得得所有选中的销售属性进行组合比如：</p>
+<p>“属性值1|属性值2|属性值3” 用这个字符串匹配一个对照表，来获得skuId。并进行跳转，或者告知无货。</p>
+</li>
+<li><p>后台要生成一个“属性值1|属性值2|属性值3：skuId”的一个json串以提供页面进行匹配。如   </p>
+</li>
+<li><p>需要从后台数据库查询出该spu下的所有skuId和属性值关联关系。然后加工成如上的Json串。</p>
+</li>
+</ol>
+<p>实现：</p>
+<p>skuSaleAttrValueMapper.xml中sql</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line">&lt;!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" &gt;</span><br><span class="line">&lt;mapper namespace="com.dcxiaolou.tinyjd.manage.mapper.SkuSaleAttrValueMapper"&gt;</span><br><span class="line">    &lt;select  id ="selectSkuSaleAttrValueListBySpu" parameterType="long" resultMap="skuSaleAttrValueMap"&gt;</span><br><span class="line">        <span class="keyword">SELECT</span>  skv.*</span><br><span class="line">        <span class="keyword">FROM</span> sku_sale_attr_value skv</span><br><span class="line">        <span class="keyword">INNER</span> <span class="keyword">JOIN</span>  sku_info  sk  <span class="keyword">ON</span> skv.sku_id =sk.id</span><br><span class="line">        <span class="keyword">where</span>  sk.spu_id=<span class="comment">#&#123;spuId&#125;   </span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> skv.sku_id , skv.sale_attr_id</span><br><span class="line">    &lt;/<span class="keyword">select</span>&gt;</span><br><span class="line">    &lt;resultMap <span class="keyword">id</span>=<span class="string">"skuSaleAttrValueMap"</span> <span class="keyword">type</span>=<span class="string">"com.dcxiaolou.tinyjd.bean.SkuSaleAttrValue"</span> autoMapping=<span class="string">"true"</span>&gt;</span><br><span class="line">        &lt;<span class="keyword">result</span> property=<span class="string">"id"</span> <span class="keyword">column</span>=<span class="string">"id"</span> &gt;&lt;/<span class="keyword">result</span>&gt;</span><br><span class="line">    &lt;/resultMap&gt;</span><br><span class="line">&lt;/mapper&gt;</span><br></pre></td></tr></table></figure>
+
+<p>要注意排序，方便后面整理。</p>
+<p>实现类很简单：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> List&lt;SkuSaleAttrValue&gt; <span class="title">getSkuSaleAttrValueListBySpu</span><span class="params">(String spuId)</span></span>&#123;</span><br><span class="line">    List&lt;SkuSaleAttrValue&gt; skuSaleAttrValueList = skuSaleAttrValueMapper.selectSkuSaleAttrValueListBySpu(Long.parseLong(spuId));</span><br><span class="line">    <span class="keyword">return</span> skuSaleAttrValueList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>难点是整理成咱们要求的json串，这个写在controller类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">List&lt;SkuSaleAttrValue&gt; skuSaleAttrValueListBySpu </span><br><span class="line">= manageService.getSkuSaleAttrValueListBySpu(skuInfo.getSpuId());</span><br><span class="line"></span><br><span class="line"><span class="comment">//把列表变换成 valueid1|valueid2|valueid3 ：skuId  的 哈希表 用于在页面中定位查询</span></span><br><span class="line">String valueIdsKey=<span class="string">""</span>;</span><br><span class="line"></span><br><span class="line">Map&lt;String,String&gt; valuesSkuMap=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; skuSaleAttrValueListBySpu.size(); i++) &#123;</span><br><span class="line">    SkuSaleAttrValue skuSaleAttrValue = skuSaleAttrValueListBySpu.get(i);</span><br><span class="line">    <span class="keyword">if</span>(valueIdsKey.length()!=<span class="number">0</span>)&#123;</span><br><span class="line">        valueIdsKey= valueIdsKey+<span class="string">"|"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    valueIdsKey=valueIdsKey+skuSaleAttrValue.getSaleAttrValueId();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>((i+<span class="number">1</span>)== skuSaleAttrValueListBySpu.size()||!skuSaleAttrValue.getSkuId().equals(skuSaleAttrValueListBySpu.get(i+<span class="number">1</span>).getSkuId())  )&#123;</span><br><span class="line"></span><br><span class="line">        valuesSkuMap.put(valueIdsKey,skuSaleAttrValue.getSkuId());</span><br><span class="line">        valueIdsKey=<span class="string">""</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//把map变成json串</span></span><br><span class="line">String valuesSkuJson = JSON.toJSONString(valuesSkuMap);</span><br><span class="line"></span><br><span class="line">model.addAttribute(<span class="string">"valuesSkuJson"</span>,valuesSkuJson);</span><br></pre></td></tr></table></figure>
+
+<p>在item中增加隐藏域</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"valuesSku"</span> <span class="attr">type</span>=<span class="string">"hidden"</span>  <span class="attr">th:value</span>= <span class="string">" $&#123;valuesSkuJson&#125;"</span>  /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"skuId"</span> <span class="attr">type</span>=<span class="string">"hidden"</span>  <span class="attr">th:value</span>= <span class="string">" $&#123;skuInfo.id&#125;"</span>  /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>valuesSku存储属性值与skuid的对照json</p>
+<p>skuId存放当前商品的skuId</p>
+<p>修改页面的js</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//红边框</span></span><br><span class="line">$(<span class="string">".box-attr-2 dd"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">   $(<span class="keyword">this</span>).addClass(<span class="string">"redborder"</span>).siblings(<span class="string">"dd"</span>).removeClass(<span class="string">"redborder"</span>);</span><br><span class="line">          switchSkuId();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>增加点击销售属性时触发切换sku方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">switchSkuId</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"><span class="keyword">var</span> redborderDivs = $(<span class="string">".redborder div"</span>);</span><br><span class="line"><span class="keyword">var</span> valueIdkeys=<span class="string">""</span>;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;redborderDivs.length;i++)&#123;</span><br><span class="line">             <span class="keyword">var</span> redborderDiv= redborderDivs.eq(i);</span><br><span class="line">             <span class="keyword">var</span> attrValueId = redborderDiv.attr(<span class="string">"value"</span>);</span><br><span class="line">             <span class="keyword">if</span>(i&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                 valueIdkeys+=<span class="string">"|"</span>;</span><br><span class="line">   &#125;</span><br><span class="line">             valueIdkeys+=attrValueId;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"valueIdkeys:"</span>+valueIdkeys);</span><br><span class="line">         <span class="keyword">var</span> valueIdSkuJson= $(<span class="string">"#valueIdSkuJson"</span>).val();</span><br><span class="line">         <span class="built_in">console</span>.log(<span class="string">"valueIdSkuJson:"</span>+valueIdSkuJson);</span><br><span class="line">        <span class="keyword">var</span> skuSelfId= $(<span class="string">"#skuId"</span>).val();</span><br><span class="line"></span><br><span class="line">         <span class="keyword">var</span> valueIdSku = <span class="built_in">JSON</span>.parse(valueIdSkuJson);</span><br><span class="line">         <span class="keyword">var</span> skuIdTarget = valueIdSku[valueIdkeys];</span><br><span class="line">         <span class="keyword">if</span>(!skuIdTarget)&#123;</span><br><span class="line">           $(<span class="string">"#cartBtn"</span>).attr(<span class="string">"class"</span>,<span class="string">"box-btns-two-off"</span>);</span><br><span class="line">             $(<span class="string">"#cartBtn"</span>).attr(<span class="string">"canClick"</span>,<span class="string">'0'</span>);</span><br><span class="line">             $(<span class="string">"#cartBtn"</span>).css(<span class="string">"cursor"</span>,<span class="string">'not-allowed'</span>) ;</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">           <span class="keyword">if</span>(skuSelfId!=skuIdTarget)&#123;</span><br><span class="line">               <span class="built_in">window</span>.location.href=<span class="string">"/"</span>+skuIdTarget+<span class="string">".html"</span>;</span><br><span class="line">             &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                 $(<span class="string">"#cartBtn"</span>).attr(<span class="string">"class"</span>,<span class="string">"box-btns-two"</span>);</span><br><span class="line">                 $(<span class="string">"#cartBtn"</span>).attr(<span class="string">"canClick"</span>,<span class="string">'1'</span>);</span><br><span class="line">                 $(<span class="string">"#cartBtn"</span>).css(<span class="string">"cursor"</span>,<span class="string">'pointer'</span>) ;</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后测试：</p>
+<h3 id="性能优化"><a href="#性能优化" class="headerlink" title="性能优化"></a>性能优化</h3><h4 id="思路：-1"><a href="#思路：-1" class="headerlink" title="思路："></a>思路：</h4><p>​    虽然实现了页面需要的功能，但是考虑到该页面是被用户高频访问的，所以性能必须进行尽可能的优化。</p>
+<p>一般一个系统最大的性能瓶颈，就是数据库的io操作。从数据库入手也是调优性价比最高的切入点。</p>
+<p>一般分为两个层面，一是提高数据库sql本身的性能，二是尽量避免直接查询数据库。</p>
+<p>提高数据库本身的性能首先是优化sql，包括：使用索引，减少不必要的大表关联次数，控制查询字段的行数和列数。另外当数据量巨大是可以考虑分库分表，以减轻单点压力。</p>
+<p>另外一个层面：尽量避免直接查询数据库。</p>
+<p>解决办法就是：缓存</p>
+<p>缓存可以理解是数据库的一道保护伞，任何请求只要能在缓存中命中，都不会直接访问数据库。而缓存的处理性能是数据库10-100倍。</p>
+<p>这里使用Redis作为缓存系统进行优化。</p>
+<h4 id="整合redis到工程中"><a href="#整合redis到工程中" class="headerlink" title="整合redis到工程中"></a>整合redis到工程中</h4><p>由于redis作为缓存数据库，要被多个项目使用，所以要制作一个通用的工具类，方便工程中的各个模块使用。</p>
+<p>而主要使用redis的模块，都是后台服务的模块，xxx-service工程。这里把redis的工具类放到service-util模块中，这样所有的后台服务模块都可以使用redis。</p>
+<p>首先引入依赖包</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/redis.clients/jedis --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>redis.clients<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jedis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>分别按照之前的方式放到parent模块和service-util的pom文件中。</p>
+<p>然后在service-util中创建两个类RedisConfig和RedisUtil</p>
+<p>RedisConfig负责在spring容器启动时自动注入，而RedisUtil就是被注入的工具类以供其他模块调用。</p>
+<h4 id="RedisUtil"><a href="#RedisUtil" class="headerlink" title="RedisUtil"></a>RedisUtil</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisUtil</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span>  JedisPool jedisPool;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initPool</span><span class="params">(String host,<span class="keyword">int</span> port ,<span class="keyword">int</span> database)</span></span>&#123;</span><br><span class="line">        JedisPoolConfig poolConfig = <span class="keyword">new</span> JedisPoolConfig();</span><br><span class="line">        poolConfig.setMaxTotal(<span class="number">200</span>);</span><br><span class="line">        poolConfig.setMaxIdle(<span class="number">30</span>);</span><br><span class="line">        poolConfig.setBlockWhenExhausted(<span class="keyword">true</span>);</span><br><span class="line">        poolConfig.setMaxWaitMillis(<span class="number">10</span>*<span class="number">1000</span>);</span><br><span class="line">        poolConfig.setTestOnBorrow(<span class="keyword">true</span>);</span><br><span class="line">        jedisPool=<span class="keyword">new</span> JedisPool(poolConfig,host,port,<span class="number">20</span>*<span class="number">1000</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Jedis <span class="title">getJedis</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Jedis jedis = jedisPool.getResource();</span><br><span class="line">        <span class="keyword">return</span> jedis;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="RedisConfig"><a href="#RedisConfig" class="headerlink" title="RedisConfig"></a>RedisConfig</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//读取配置文件中的redis的ip地址</span></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.host:disabled&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String host;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.port:0&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> port;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.database:0&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> database;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisUtil <span class="title">getRedisUtil</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(host.equals(<span class="string">"disabled"</span>))&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        RedisUtil redisUtil=<span class="keyword">new</span> RedisUtil();</span><br><span class="line">        redisUtil.initPool(host,port,database);</span><br><span class="line">        <span class="keyword">return</span> redisUtil;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时，任何模块想要调用redis都必须在application.properties配置，否则不会进行注入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=redis.server.com</span><br><span class="line">spring.redis.port=6379</span><br><span class="line">spring.redis.database=0</span><br></pre></td></tr></table></figure>
+
+<p>现在可以在manage-service中的getSkuInfo()方法测试一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    Jedis jedis = redisUtil.getJedis();</span><br><span class="line">    jedis.get(<span class="string">"test"</span>,<span class="string">"text_value"</span> );</span><br><span class="line">&#125;<span class="keyword">catch</span> (JedisConnectionException e)&#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用redis进行业务开发"><a href="#使用redis进行业务开发" class="headerlink" title="使用redis进行业务开发"></a>使用redis进行业务开发</h4><p>开始开发先说明redis key的命名规范，由于Redis不像数据库表那样有结构，其所有的数据全靠key进行索引，所以redis数据的可读性，全依靠key。</p>
+<p>企业中最常用的方式就是：</p>
+<p><code>object:id:field</code></p>
+<p>比如：sku:1314:info</p>
+<p>​           user:1092:password</p>
+<p>重构getSkuInfo方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> SkuInfo <span class="title">getSkuInfo</span><span class="params">(String skuId)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        Jedis jedis = redisUtil.getJedis();</span><br><span class="line">        String skuKey= RedisConst.sku_prefix+skuId+RedisConst.skuInfo_suffix;</span><br><span class="line">        String skuInfoJson = jedis.get(skuKey);</span><br><span class="line">        <span class="keyword">if</span>(skuInfoJson!=<span class="keyword">null</span> )&#123;</span><br><span class="line">            System.err.println( Thread.currentThread().getName()+<span class="string">"：命中缓存"</span>  );</span><br><span class="line">            SkuInfo skuInfo = JSON.parseObject(skuInfoJson, SkuInfo.class);</span><br><span class="line">            jedis.close();</span><br><span class="line">            <span class="keyword">return</span> skuInfo;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               System.err.println( Thread.currentThread().getName()+<span class="string">"：未命中缓存"</span>  );</span><br><span class="line"></span><br><span class="line">                System.err.println( Thread.currentThread().getName()+<span class="string">"： 查询数据"</span> );</span><br><span class="line">                SkuInfo skuInfoDB = getSkuInfoDB(skuId);</span><br><span class="line">                String skuInfoJsonStr = JSON.toJSONString(skuInfoDB);</span><br><span class="line">                jedis.setex(skuKey,RedisConst.skuinfo_exp_sec,skuInfoJsonStr);</span><br><span class="line">                System.err.println( Thread.currentThread().getName()+<span class="string">"：数据库更新完毕"</span> );</span><br><span class="line">                jedis.close();</span><br><span class="line">                <span class="keyword">return</span> skuInfoDB;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上基本实现使用缓存的方案。</p>
+<h3 id="高并发时可能会出现的问题"><a href="#高并发时可能会出现的问题" class="headerlink" title="高并发时可能会出现的问题"></a>高并发时可能会出现的问题</h3><p>在高并发环境下还有如下三个问题：</p>
+<ol>
+<li>如果redis宕机了，或者链接不上，怎么办？</li>
+<li>如果redis缓存在高峰期到期失效，在这个时刻请求会向雪崩一样，直接访问数据库如何处理？</li>
+<li>如果用户不停地查询一条不存在的数据，缓存没有，数据库也没有，那么会出现什么情况，如何处理？</li>
+</ol>
+<h3 id="缓存问题"><a href="#缓存问题" class="headerlink" title="缓存问题"></a>缓存问题</h3><h4 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h4><p><strong>缓存穿透</strong>是指<strong>查询一个一定不存在的数据</strong>，由于缓存是不命中，将去查询数据库，但是数据库也无此记录，并且处于容错考虑，我们没有将这次查询的null写入缓存，这将导致这个不存在的数据每次请求都要到存储层去查询，失去了缓存的意义。<strong>在流量大时</strong>，可能DB就挂掉了，要是有人利用不存在的key频繁攻击我们的应用，这就是漏洞。</p>
+<p><strong>解决</strong></p>
+<p>空结果进行缓存，但它的过期时间会很短，最长不超过五分钟。</p>
+<h4 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h4><p>缓存雪崩是指在我们设置缓存时采用了相同的过期时间，导致缓存在某一时刻同时失效，请求全部转发到DB，DB瞬时压力过重雪崩。</p>
+<p><strong>解决</strong></p>
+<p>原有的失效时间基础上增加一个随机值，比如1-5分钟随机，这样每一个缓存的过期时间的重复率就会降低，就很难引发集体失效的事件。</p>
+<h3 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h3><p>对于一些设置了过期时间的key，如果这些key可能会在某些时间点被超高并发地访问，是一种非常“热点”的数据。这个时候，需要考虑一个问题：如果这个key在大量请求同时进来前正好失效，那么所有对这个key的数据查询都落到db，我们称为缓存击穿。和缓存雪崩的区别：</p>
+<p>缓存击穿是一个热点key失效</p>
+<p>缓存雪崩是很多key集体失效</p>
+<p>缓存在某个时间点过期的时候，恰好在这个时间点对这个Key有大量的并发请求过来，这些请求发现缓存过期一般都会从后端DB加载数据并回设到缓存，这个时候大并发的请求可能会瞬间把后端DB压垮。</p>
+<p>解决：</p>
+<p>分布式锁</p>
+<h3 id="分布式锁"><a href="#分布式锁" class="headerlink" title="分布式锁"></a>分布式锁</h3><p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-myblog/1571742712660.png" alt="1571742712660"></p>
+<p>核心代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String token = UUID.randomUUID().toString();</span><br><span class="line">String lock = jedis.set(key, token, <span class="string">"NX"</span>, <span class="string">"EX"</span>,<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="redisson"><a href="#redisson" class="headerlink" title="redisson"></a>redisson</h3><p><a href="https://github.com/redisson/redisson/wiki/1.-Overview" target="_blank" rel="noopener">https://github.com/redisson/redisson/wiki/1.-Overview</a> </p>
+<h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。其中包括(BitSet, Set, Multimap, SortedSet, Map, List, Queue, BlockingQueue, Deque, BlockingDeque, Semaphore, Lock, AtomicLong, CountDownLatch, Publish / Subscribe, Bloom filter, Remote service, Spring cache, Executor service, Live Object service, Scheduler service) Redisson提供了使用Redis的最简单和最便捷的方法。Redisson的宗旨是促进使用者对Redis的关注分离（Separation of Concern），从而让使用者能够将精力更集中地放在处理业务逻辑上。</p>
+<h4 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h4><p>引入 pom</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.redisson/redisson --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.redisson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>redisson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.10.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=192.168.159.130</span><br><span class="line">spring.redis.port=6379</span><br></pre></td></tr></table></figure>
+
+<p>配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GmallRedissonConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.host&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String host;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;spring.redis.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String port;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedissonClient <span class="title">redissonClient</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Config config = <span class="keyword">new</span> Config();</span><br><span class="line">        config.useSingleServer().setAddress(<span class="string">"redis://"</span>+host+<span class="string">":"</span>+port);</span><br><span class="line">        RedissonClient redisson = Redisson.create(config);</span><br><span class="line">        <span class="keyword">return</span> redisson;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="redisson锁"><a href="#redisson锁" class="headerlink" title="redisson锁"></a>redisson锁</h4><p>可重入锁（ReentrantLock）</p>
+<p>基于Redis的Redisson分布式可重入锁RLock Java对象实现了java.util.concurrent.locks.Lock接口。同时还提供了异步（Async）、反射式（Reactive）和RxJava2标准的接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RLock lock = redisson.getLock(<span class="string">"anyLock"</span>);</span><br><span class="line"><span class="comment">// 最常见的使用方法</span></span><br><span class="line">lock.lock();</span><br></pre></td></tr></table></figure>
+
+<p>另外Redisson还通过加锁的方法提供了<code>leaseTime</code>的参数来指定加锁的时间。超过这个时间后锁便自动解开了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 加锁以后10秒钟自动解锁</span></span><br><span class="line"><span class="comment">// 无需调用unlock方法手动解锁</span></span><br><span class="line">lock.lock(<span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 尝试加锁，最多等待100秒，上锁以后10秒自动解锁</span></span><br><span class="line"><span class="keyword">boolean</span> res = lock.tryLock(<span class="number">100</span>, <span class="number">10</span>, TimeUnit.SECONDS);</span><br><span class="line"><span class="keyword">if</span> (res) &#123;</span><br><span class="line">   <span class="keyword">try</span> &#123;</span><br><span class="line">     ...</span><br><span class="line">   &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">       lock.unlock();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Count</span> </span>&#123;</span><br><span class="line">  Lock lock = <span class="keyword">new</span> Lock();</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    daAdd();</span><br><span class="line">    lock.unlock();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAdd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    lock.lock();</span><br><span class="line">    </span><br><span class="line">    lock.unlock();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当调用 print() 方法时，获得了锁，这时就无法再调用 doAdd() 方法，只有先释放锁才能调用，所以称这种锁为不可重入锁，也加自旋锁。</p>
+<h3 id="redisson分布式压力测试"><a href="#redisson分布式压力测试" class="headerlink" title="redisson分布式压力测试"></a>redisson分布式压力测试</h3><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p><strong>Linux</strong></p>
+<p>yum -y install httpd-tools</p>
+<p><strong>Windows</strong></p>
+<p>查看80端口有没有被占用，netstat -ano | findstr “80”</p>
+<p>下载地址<a href="https://www.apachehaus.com/cgi-bin/download.plx" target="_blank" rel="noopener">https://www.apachehaus.com/cgi-bin/download.plx</a></p>
+<p> 解压后，找到安装目录下的httpd.conf，修改为自己的安装目录</p>
+<p>启动服务</p>
+<p>http.exe</p>
+<p>命令示例(并发200，一共1000个请求)</p>
+<p>ab -c 200 -n 1000 http:nginx负载均衡/压力方法</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>新建一个测试redisson控制层，加入测试代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"lockTest"</span>)</span><br><span class="line"><span class="meta">@ResponseBody</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">lockTest</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Jedis jedis = redisUtil.getJedis();<span class="comment">// redis链接</span></span><br><span class="line">    RLock lock = redissonClient.getLock(<span class="string">"redis-lock"</span>);<span class="comment">//分布锁</span></span><br><span class="line">    <span class="comment">//加锁</span></span><br><span class="line">    lock.lock();</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String v = jedis.get(<span class="string">"k"</span>);<span class="comment">//获取value</span></span><br><span class="line">        System.err.print(<span class="string">"==&gt;"</span>+v);<span class="comment">//打印value</span></span><br><span class="line">        <span class="keyword">if</span>(StringUtil.isBlank(v))&#123;</span><br><span class="line">            v = <span class="string">"1"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> inum = Integer.parseInt(v);<span class="comment">//获得value的值</span></span><br><span class="line">        jedis.set(<span class="string">"k"</span>, inum+<span class="number">1</span>+<span class="string">""</span>);<span class="comment">//value增加1</span></span><br><span class="line">        jedis.close();</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        lock.unlock();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"success"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>启动n个测试redisson控制层的微服务</p>
+<p>配置nginx的负载均衡到测试redisson控制层的微服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">upstream redisTest &#123;</span><br><span class="line"></span><br><span class="line">	server   127.0.0.1:8071 weight=3;</span><br><span class="line"></span><br><span class="line">	server   127.0.0.1:8072  weight=3;</span><br><span class="line"></span><br><span class="line">	server   127.0.0.1:8073  weight=3;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置nginx的默认代理地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> location / &#123;</span><br><span class="line"></span><br><span class="line">	#root D:/software/upload;    </span><br><span class="line"></span><br><span class="line">	proxy_pass http://redisTest;</span><br><span class="line"></span><br><span class="line">	index  index.html index.htm; </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用 apache 的 ab 压力测试命令访问 nginx 来压测分布式的 redisson 控制层的微服务</p>
+<p>同时观察 redis 的被并发的 k 的增长情况</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>dcxiaolou</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dcxiaolou.github.io/2019/10/22/仿京东商城项目之商品详情页（四）/" title="仿京东商城项目之商品详情页（四）">https://dcxiaolou.github.io/2019/10/22/仿京东商城项目之商品详情页（四）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
+</ul>
+</div>
+
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/个人项目/" rel="tag"># 个人项目</a>
+            
+              <a href="/tags/电商/" rel="tag"># 电商</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/21/FastDFS文件服务器/" rel="next" title="FastDFS文件服务器">
+                  <i class="fa fa-chevron-left"></i> FastDFS文件服务器
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#商品详情页"><span class="nav-number">1.</span> <span class="nav-text">商品详情页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#业务介绍"><span class="nav-number">1.1.</span> <span class="nav-text">业务介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#难点分析"><span class="nav-number">1.2.</span> <span class="nav-text">难点分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#功能开发"><span class="nav-number">1.3.</span> <span class="nav-text">功能开发</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何销售属性切换当前商品sku"><span class="nav-number">2.</span> <span class="nav-text">如何销售属性切换当前商品sku</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路："><span class="nav-number">2.1.</span> <span class="nav-text">思路：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询出sku对应spu的销售属性"><span class="nav-number">2.2.</span> <span class="nav-text">查询出sku对应spu的销售属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点击其他销售属性值的组合，跳转到另外的sku页面"><span class="nav-number">3.</span> <span class="nav-text">点击其他销售属性值的组合，跳转到另外的sku页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#性能优化"><span class="nav-number">4.</span> <span class="nav-text">性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路：-1"><span class="nav-number">4.1.</span> <span class="nav-text">思路：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#整合redis到工程中"><span class="nav-number">4.2.</span> <span class="nav-text">整合redis到工程中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RedisUtil"><span class="nav-number">4.3.</span> <span class="nav-text">RedisUtil</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RedisConfig"><span class="nav-number">4.4.</span> <span class="nav-text">RedisConfig</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用redis进行业务开发"><span class="nav-number">4.5.</span> <span class="nav-text">使用redis进行业务开发</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#高并发时可能会出现的问题"><span class="nav-number">5.</span> <span class="nav-text">高并发时可能会出现的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存问题"><span class="nav-number">6.</span> <span class="nav-text">缓存问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存穿透"><span class="nav-number">6.1.</span> <span class="nav-text">缓存穿透</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存雪崩"><span class="nav-number">6.2.</span> <span class="nav-text">缓存雪崩</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缓存击穿"><span class="nav-number">7.</span> <span class="nav-text">缓存击穿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式锁"><span class="nav-number">8.</span> <span class="nav-text">分布式锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redisson"><span class="nav-number">9.</span> <span class="nav-text">redisson</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">9.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#整合"><span class="nav-number">9.2.</span> <span class="nav-text">整合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redisson锁"><span class="nav-number">9.3.</span> <span class="nav-text">redisson锁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redisson分布式压力测试"><span class="nav-number">10.</span> <span class="nav-text">redisson分布式压力测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">10.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试"><span class="nav-number">10.2.</span> <span class="nav-text">测试</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0"
+      alt="dcxiaolou">
+  <p class="site-author-name" itemprop="name">dcxiaolou</p>
+  <div class="site-description" itemprop="description">今天的最好是明天最低的标准。</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/dcxiaolou" title="GitHub &rarr; https://github.com/dcxiaolou" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="mailto:3515668588@qq.com" title="E-Mail &rarr; mailto:3515668588@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+    
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    
+  
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="http://macshuo.com/" title="http://macshuo.com/" rel="noopener" target="_blank">MacTalk</a>
+        </li>
+      
+        <li class="links-of-blogroll-item">
+          <a href="http://example.com/" title="http://example.com/" rel="noopener" target="_blank">Title</a>
+        </li>
+      
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">dcxiaolou</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.4.0</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/muse.js?v=7.4.0"></script>
+
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
