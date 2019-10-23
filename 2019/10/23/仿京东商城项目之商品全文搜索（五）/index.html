@@ -56,31 +56,33 @@
   };
 </script>
 
-  <meta name="description" content="今天的最好是明天最低的标准。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="dcxiaolou&#39;s Blog">
-<meta property="og:url" content="https://dcxiaolou.github.io/index.html">
+  <meta name="description" content="搜索什么是搜索， 计算机根据用户输入的关键词进行匹配，从已有的数据库中摘录出相关的记录反馈给用户。  常见的全网搜索引擎，像百度、谷歌这样的。但是除此以外，搜索技术在垂直领域也有广泛的使用，比如淘宝、京东搜索商品，万芳、知网搜索期刊，csdn中搜索问题贴。也都是基于海量数据的搜索。 如何处理搜索用传统关系性数据库弊端：   1、 对于传统的关系性数据库对于关键词的查询，只能逐字逐行的匹配，性能非常">
+<meta name="keywords" content="个人项目,电商">
+<meta property="og:type" content="article">
+<meta property="og:title" content="仿京东商城项目之商品全文搜索（五）">
+<meta property="og:url" content="https://dcxiaolou.github.io/2019/10/23/仿京东商城项目之商品全文搜索（五）/index.html">
 <meta property="og:site_name" content="dcxiaolou&#39;s Blog">
-<meta property="og:description" content="今天的最好是明天最低的标准。">
+<meta property="og:description" content="搜索什么是搜索， 计算机根据用户输入的关键词进行匹配，从已有的数据库中摘录出相关的记录反馈给用户。  常见的全网搜索引擎，像百度、谷歌这样的。但是除此以外，搜索技术在垂直领域也有广泛的使用，比如淘宝、京东搜索商品，万芳、知网搜索期刊，csdn中搜索问题贴。也都是基于海量数据的搜索。 如何处理搜索用传统关系性数据库弊端：   1、 对于传统的关系性数据库对于关键词的查询，只能逐字逐行的匹配，性能非常">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-23T11:14:21.082Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="dcxiaolou&#39;s Blog">
-<meta name="twitter:description" content="今天的最好是明天最低的标准。">
-  <link rel="canonical" href="https://dcxiaolou.github.io/">
+<meta name="twitter:title" content="仿京东商城项目之商品全文搜索（五）">
+<meta name="twitter:description" content="搜索什么是搜索， 计算机根据用户输入的关键词进行匹配，从已有的数据库中摘录出相关的记录反馈给用户。  常见的全网搜索引擎，像百度、谷歌这样的。但是除此以外，搜索技术在垂直领域也有广泛的使用，比如淘宝、京东搜索商品，万芳、知网搜索期刊，csdn中搜索问题贴。也都是基于海量数据的搜索。 如何处理搜索用传统关系性数据库弊端：   1、 对于传统的关系性数据库对于关键词的查询，只能逐字逐行的匹配，性能非常">
+  <link rel="canonical" href="https://dcxiaolou.github.io/2019/10/23/仿京东商城项目之商品全文搜索（五）/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: true,
-    isPost: false,
+    isHome: false,
+    isPost: true,
     isPage: false,
     isArchive: false
   };
 </script>
 
-  <title>dcxiaolou's Blog</title>
+  <title>仿京东商城项目之商品全文搜索（五） | dcxiaolou's Blog</title>
   
 
 
@@ -248,12 +250,13 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
+
   <div id="posts" class="posts-expand">
-        <article itemscope itemtype="http://schema.org/Article">
+      <article itemscope itemtype="http://schema.org/Article">
   
   
   
-  <div class="post-block home">
+  <div class="post-block post">
     <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/23/仿京东商城项目之商品全文搜索（五）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -266,9 +269,8 @@
       <meta itemprop="name" content="dcxiaolou's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/23/仿京东商城项目之商品全文搜索（五）/" class="post-title-link" itemprop="url">仿京东商城项目之商品全文搜索（五）</a>
+        <h1 class="post-title" itemprop="name headline">仿京东商城项目之商品全文搜索（五）
+
           
         </h1>
 
@@ -312,6 +314,14 @@
           
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
 
         </div>
       </header>
@@ -322,7 +332,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h3><p>什么是搜索， 计算机根据用户输入的关键词进行匹配，从已有的数据库中摘录出相关的记录反馈给用户。 </p>
+        <h3 id="搜索"><a href="#搜索" class="headerlink" title="搜索"></a>搜索</h3><p>什么是搜索， 计算机根据用户输入的关键词进行匹配，从已有的数据库中摘录出相关的记录反馈给用户。 </p>
 <p>常见的全网搜索引擎，像百度、谷歌这样的。但是除此以外，搜索技术在垂直领域也有广泛的使用，比如淘宝、京东搜索商品，万芳、知网搜索期刊，csdn中搜索问题贴。也都是基于海量数据的搜索。</p>
 <h3 id="如何处理搜索"><a href="#如何处理搜索" class="headerlink" title="如何处理搜索"></a>如何处理搜索</h3><h4 id="用传统关系性数据库"><a href="#用传统关系性数据库" class="headerlink" title="用传统关系性数据库"></a>用传统关系性数据库</h4><p>弊端：  </p>
 <p>1、 对于传统的关系性数据库对于关键词的查询，只能逐字逐行的匹配，性能非常差。</p>
@@ -566,991 +576,70 @@
 </li>
 </ol>
 
-        
-      
     </div>
 
     
     
     
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/22/仿京东商城项目之商品详情页（四）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/22/仿京东商城项目之商品详情页（四）/" class="post-title-link" itemprop="url">仿京东商城项目之商品详情页（四）</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-22 19:27:19 / 修改时间：19:34:18" itemprop="dateCreated datePublished" datetime="2019-10-22T19:27:19+08:00">2019-10-22</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/" itemprop="url" rel="index"><span itemprop="name">个人项目</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/电商/" itemprop="url" rel="index"><span itemprop="name">电商</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="商品详情页"><a href="#商品详情页" class="headerlink" title="商品详情页"></a>商品详情页</h3><h4 id="业务介绍"><a href="#业务介绍" class="headerlink" title="业务介绍"></a>业务介绍</h4><p>商品详情页，简单说就是以购物者的角度展现一个sku的详情信息。</p>
-<p>这个页面不同于传统的crud的详情页，使用者并不是管理员，需要对信息进行查删改查，取而代之的是点击购买、放入购物车、切换颜色等等。</p>
-<p>另外一个特点就是该页面的高访问量，虽然只是一个查询操作，但是由于频繁的访问所以我们必须对其性能进行最大程度的优化。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/22/仿京东商城项目之商品详情页（四）/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
         
       
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
         
-      </footer>
-  </div>
-  
-  
-  
-  </article>
 
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/21/FastDFS文件服务器/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/FastDFS文件服务器/" class="post-title-link" itemprop="url">FastDFS文件服务器</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 21:52:58 / 修改时间：22:04:25" itemprop="dateCreated datePublished" datetime="2019-10-21T21:52:58+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/FastDFS/" itemprop="url" rel="index"><span itemprop="name">FastDFS</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/FastDFS/文件服务器/" itemprop="url" rel="index"><span itemprop="name">文件服务器</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="FastDFS介绍"><a href="#FastDFS介绍" class="headerlink" title="FastDFS介绍"></a>FastDFS介绍</h3><p>FastDFS是一个由 C 语言实现的开源轻量级分布式文件系统，作者余庆(happyfish100)，支持 Linux、FreeBSD、AID 等 Unix 系统，解决了大数据存储和读写负载均衡等问题，适合存储 4KB~500MB 之间的小文件，如图片网站、短视频网站、文档、app 下载站等，UC、京东、支付宝、迅雷、酷狗等都有使用。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/21/FastDFS文件服务器/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/21/仿京东商城项目之pms后台管理（三）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/21/仿京东商城项目之pms后台管理（三）/" class="post-title-link" itemprop="url">仿京东商城项目之pms后台管理（三）</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-21 21:51:17 / 修改时间：22:02:52" itemprop="dateCreated datePublished" datetime="2019-10-21T21:51:17+08:00">2019-10-21</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/" itemprop="url" rel="index"><span itemprop="name">个人项目</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/电商/" itemprop="url" rel="index"><span itemprop="name">电商</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="pms整体业务"><a href="#pms整体业务" class="headerlink" title="pms整体业务"></a>pms整体业务</h3><ol>
-<li><p>三级分类的查询</p>
-</li>
-<li><p>商品的平台属性列表的增删改查</p>
-</li>
-<li><p>商品spu的添加</p>
-<p>spu列表查询</p>
-<p>spu的销售属性、属性值、图片上传</p>
-</li>
-<li><p>商品sku的添加</p>
-<p>sku信息、关联的销售属性、关联的平台属性、图片</p>
-</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/21/仿京东商城项目之pms后台管理（三）/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/20/Dubbo简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/20/Dubbo简介/" class="post-title-link" itemprop="url">Dubbo简介</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-20 20:11:44 / 修改时间：20:17:00" itemprop="dateCreated datePublished" datetime="2019-10-20T20:11:44+08:00">2019-10-20</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Dubbo/" itemprop="url" rel="index"><span itemprop="name">Dubbo</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Dubbo-简介"><a href="#Dubbo-简介" class="headerlink" title="Dubbo 简介"></a>Dubbo 简介</h3><ol>
-<li><p>Dubbo: 一个分布式、高性能、透明化的RPC服务框架</p>
-<p>RPC(Remote Procedure Call Protocol)指远程过程调用协议</p>
-<p>RPC解析: 客户端通过互联网调用远程服务器，不知道远程服务器具体实现，只知道远程服务器提供了什么功能</p>
-<p>RPC最大优点: 数据安全性</p>
-</li>
-<li><p>作用: 提供服务自动注册、自动发现等高效服务治理方案</p>
-</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/20/Dubbo简介/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/20/仿京东管理项目之架构（二）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/20/仿京东管理项目之架构（二）/" class="post-title-link" itemprop="url">仿京东管理项目之架构（二）</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-20 19:20:20 / 修改时间：19:30:31" itemprop="dateCreated datePublished" datetime="2019-10-20T19:20:20+08:00">2019-10-20</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/" itemprop="url" rel="index"><span itemprop="name">个人项目</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/电商/" itemprop="url" rel="index"><span itemprop="name">电商</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="一、分布式架构"><a href="#一、分布式架构" class="headerlink" title="一、分布式架构"></a>一、分布式架构</h3><p>将各个应用通过分层独立出来，可以利用rpc实现web与service、service与service的互相调用，提高了代码的复用性。</p>
-<p>缺点：  每个调用的模块要存储一份完整的被调用模块的位置和状态，一旦位置和状态发生变化，就要更新所有涉及的配置。</p>
-<p><strong>面向服务的分布式架构</strong></p>
-<p>随着架构不断增大，服务节点也越来越多，服务之间的调用和依赖关系也越来越复杂，需要有一个统一的中心来调度、路由、管理所有的服务，基于这个中心构建的这个星型架构就是现在目前最主流的SOA分布式架构。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/20/仿京东管理项目之架构（二）/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/18/仿京东商城项目之简介（一）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/18/仿京东商城项目之简介（一）/" class="post-title-link" itemprop="url">仿京东商城项目之简介（一）</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-18 00:11:38" itemprop="dateCreated datePublished" datetime="2019-10-18T00:11:38+08:00">2019-10-18</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-10-20 19:19:17" itemprop="dateModified" datetime="2019-10-20T19:19:17+08:00">2019-10-20</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/" itemprop="url" rel="index"><span itemprop="name">个人项目</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/个人项目/电商/" itemprop="url" rel="index"><span itemprop="name">电商</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>代码存放地址：<a href="https://github.com/dcxiaolou/tinyJD" target="_blank" rel="noopener">https://github.com/dcxiaolou/tinyJD</a></p>
-<p>本次介绍的项目是一个综合性的B2C平台，非常类似京东商城</p>
-<p><img src="https://dcxiaolou.coding.net/p/MyPicGo/git/raw/master/img-tinyjd/tinyjd-logo.png" alt="logo"></p>
-<h2 id="为什么要写仿京东商城项目？"><a href="#为什么要写仿京东商城项目？" class="headerlink" title="为什么要写仿京东商城项目？"></a>为什么要写仿京东商城项目？</h2><p>因为就互联网平台来说，电商网站有很多典型的特征：</p>
-<ul>
-<li><p>访问量大</p>
-</li>
-<li><p>数据量大</p>
-</li>
-<li><p>并发高，实战性强</p>
-</li>
-<li><p>有一定的业务复杂性,技术点丰富</p>
-</li>
-<li><p>涉及支付考虑一定安全性</p>
-</li>
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>dcxiaolou</li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://dcxiaolou.github.io/2019/10/23/仿京东商城项目之商品全文搜索（五）/" title="仿京东商城项目之商品全文搜索（五）">https://dcxiaolou.github.io/2019/10/23/仿京东商城项目之商品全文搜索（五）/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li>
 </ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/18/仿京东商城项目之简介（一）/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
+</div>
 
-    
-    
-    
+      
+
       <footer class="post-footer">
-          <div class="post-eof"></div>
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/个人项目/" rel="tag"># 个人项目</a>
+            
+              <a href="/tags/电商/" rel="tag"># 电商</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/22/仿京东商城项目之商品详情页（四）/" rel="next" title="仿京东商城项目之商品详情页（四）">
+                  <i class="fa fa-chevron-left"></i> 仿京东商城项目之商品详情页（四）
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
         
       </footer>
+    
   </div>
   
   
   
   </article>
 
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/" class="post-title-link" itemprop="url">使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-10-14 23:37:14 / 修改时间：23:40:21" itemprop="dateCreated datePublished" datetime="2019-10-14T23:37:14+08:00">2019-10-14</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flume/" itemprop="url" rel="index"><span itemprop="name">Flume</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Flume/LZO/" itemprop="url" rel="index"><span itemprop="name">LZO</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>环境：jdk 1.8、Hadoop 2.7.2、Flume 1.7.0、Kafka 0.11.0.2</p>
-<p>在 Hadoop 中使用了 LZO 来进行压缩</p>
-<p>数据导入到 Kafka 后，使用 Flume 来消费Kafka中的数据，将数据导入到 HDFS 中</p>
-<p>在导入的过程中出现错误 java.lang.RuntimeException: native-lzo library not available 错误，同时在 Hadoop 的 web 界面中可以看见很多以 .lzo.tmp 结尾的文件</p>
-<p>解决：在使用 Flume 导入数据的节点上重新安装 LZO 和 LZOP</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/10/14/使用Flume将Kafka中的数据导入到HDFS时native-lzo library not available问题/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
   </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/09/19/Typroa及Markdown语法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/19/Typroa及Markdown语法/" class="post-title-link" itemprop="url">Typora及Markdown语法</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-19 21:37:53 / 修改时间：21:56:16" itemprop="dateCreated datePublished" datetime="2019-09-19T21:37:53+08:00">2019-09-19</time>
-            </span>
-          
-            
-
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Typora/" itemprop="url" rel="index"><span itemprop="name">Typora</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Typora/Markdown/" itemprop="url" rel="index"><span itemprop="name">Markdown</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a href="https://www.typora.io/" target="_blank" rel="noopener">Typora</a>是一款轻便简介的Markdown编辑器，支持即时渲染技术，所见即所得。</p>
-<p>Typora能够插入本地图片和来自网络的图片，但是，如果编写完后的<code>.md</code>文件要进行网络传输则插入的本地图片将会显示不出来。要解决该问题可以使用图床，如<a href="https://picgo.github.io/PicGo-Doc/zh/guide/" target="_blank" rel="noopener">PicGo</a>。PicGo在上传图片之后会自动将图片的链接复制到粘贴板中，并支持<code>微博图床</code>、<code>七牛图床</code>、<code>GitHub</code>等8中图床。</p>
-<p>除此之外，还可以使用<a href="https://www.jianguoyun.com/" target="_blank" rel="noopener">坚果云</a>等云存储工具作为网络存储来保存编写的文件，这样就不怕丢失了，还可以在手机端查看。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/09/19/Typroa及Markdown语法/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-        <article itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block home">
-    <link itemprop="mainEntityOfPage" href="https://dcxiaolou.github.io/2019/09/19/使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="dcxiaolou">
-      <meta itemprop="description" content="今天的最好是明天最低的标准。">
-      <meta itemprop="image" content="https://coding-net-production-static-ci.codehub.cn/cfad172b-d1fc-4012-9e7c-e42570c13b22.jpg?imageMogr2/auto-orient/format/jpeg/cut/360x360x76x0">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="dcxiaolou's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-            
-            <a href="/2019/09/19/使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)/" class="post-title-link" itemprop="url">使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)</a>
-          
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              
-                
-              
-
-              <time title="创建时间：2019-09-19 10:48:31" itemprop="dateCreated datePublished" datetime="2019-09-19T10:48:31+08:00">2019-09-19</time>
-            </span>
-          
-            
-
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2019-10-18 00:15:12" itemprop="dateModified" datetime="2019-10-18T00:15:12+08:00">2019-10-18</time>
-              </span>
-            
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hexo/" itemprop="url" rel="index"><span itemprop="name">Hexo</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Hexo/NexT/" itemprop="url" rel="index"><span itemprop="name">NexT</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>最近在学习<code>Flink</code>时看到了一个阿里大佬的个人博客（<a href="http://wuchong.me/" target="_blank" rel="noopener">Jark’s Blog</a>）觉得挺不错的，界面简洁、优雅，内容干货满满。即可以记录自己学到的知识和生活中的点点滴滴，又可以分享给其他小伙伴。于是自己也想搭一个，en~那就开始吧。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/09/19/使用Hexo搭建个人博客并部署到GitHub和coding.net(GitCafe)/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-          <div class="post-eof"></div>
-        
-      </footer>
-  </div>
-  
-  
-  
-  </article>
-
-    
-  </div>
-
-  
 
 
           </div>
@@ -1569,6 +658,11 @@
 
   <aside class="sidebar">
     <div class="sidebar-inner">
+        
+        
+        
+        
+      
 
       <ul class="sidebar-nav motion-element">
         <li class="sidebar-nav-toc">
@@ -1581,6 +675,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#搜索"><span class="nav-number">1.</span> <span class="nav-text">搜索</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何处理搜索"><span class="nav-number">2.</span> <span class="nav-text">如何处理搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用传统关系性数据库"><span class="nav-number">2.1.</span> <span class="nav-text">用传统关系性数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用专业全文索引"><span class="nav-number">2.2.</span> <span class="nav-text">用专业全文索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文检索工具elasticsearch"><span class="nav-number">3.</span> <span class="nav-text">全文检索工具elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lucene与elasticsearch"><span class="nav-number">3.1.</span> <span class="nav-text">lucene与elasticsearch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#elasticSearch的使用场景"><span class="nav-number">3.2.</span> <span class="nav-text">elasticSearch的使用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#elasticsearch的基本概念"><span class="nav-number">4.</span> <span class="nav-text">elasticsearch的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#es中保存的数据结构"><span class="nav-number">4.1.</span> <span class="nav-text">es中保存的数据结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于mapping的类型"><span class="nav-number">4.2.</span> <span class="nav-text">关于mapping的类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#中文分词"><span class="nav-number">4.3.</span> <span class="nav-text">中文分词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装"><span class="nav-number">4.4.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-2测试使用"><span class="nav-number">4.5.</span> <span class="nav-text">5.4.2测试使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于中文分词搭建索引"><span class="nav-number">4.6.</span> <span class="nav-text">基于中文分词搭建索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整合es客户端到Java程序中"><span class="nav-number">5.</span> <span class="nav-text">整合es客户端到Java程序中</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#搭建模块"><span class="nav-number">5.1.</span> <span class="nav-text">搭建模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于es-的java-客户端的选择"><span class="nav-number">5.2.</span> <span class="nav-text">关于es 的java 客户端的选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入Jest依赖"><span class="nav-number">5.3.</span> <span class="nav-text">导入Jest依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在测试类中测试ES"><span class="nav-number">5.4.</span> <span class="nav-text">在测试类中测试ES</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sku数据保存到ES"><span class="nav-number">6.</span> <span class="nav-text">sku数据保存到ES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#电商的搜索列表功能"><span class="nav-number">7.</span> <span class="nav-text">电商的搜索列表功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#功能简介"><span class="nav-number">7.1.</span> <span class="nav-text">功能简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据业务搭建数据结构"><span class="nav-number">7.2.</span> <span class="nav-text">根据业务搭建数据结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询数据的后台方法"><span class="nav-number">8.</span> <span class="nav-text">查询数据的后台方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分析"><span class="nav-number">8.1.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写DSL语句："><span class="nav-number">8.2.</span> <span class="nav-text">编写DSL语句：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#构造查询DSL"><span class="nav-number">8.3.</span> <span class="nav-text">构造查询DSL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#处理返回值"><span class="nav-number">8.4.</span> <span class="nav-text">处理返回值</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检索的页面"><span class="nav-number">9.</span> <span class="nav-text">检索的页面</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建gmall-list-web模块"><span class="nav-number">9.1.</span> <span class="nav-text">创建gmall-list-web模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#静态网页及资源文件"><span class="nav-number">9.2.</span> <span class="nav-text">静态网页及资源文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#application-properties"><span class="nav-number">9.3.</span> <span class="nav-text">application.properties</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sku列表功能"><span class="nav-number">10.</span> <span class="nav-text">sku列表功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#页面html渲染"><span class="nav-number">10.1.</span> <span class="nav-text">页面html渲染</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搜索栏相关html"><span class="nav-number">10.2.</span> <span class="nav-text">搜索栏相关html</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#js代码"><span class="nav-number">10.3.</span> <span class="nav-text">js代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面功能—提供可供选择的属性列表"><span class="nav-number">11.</span> <span class="nav-text">页面功能—提供可供选择的属性列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路："><span class="nav-number">11.1.</span> <span class="nav-text">思路：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ListController"><span class="nav-number">11.2.</span> <span class="nav-text">ListController</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在ManageServiceImpl中增加方法"><span class="nav-number">11.3.</span> <span class="nav-text">在ManageServiceImpl中增加方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BaseAttrInfoMapper-xml"><span class="nav-number">11.4.</span> <span class="nav-text">BaseAttrInfoMapper.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BaseAttrInfoMapper"><span class="nav-number">11.5.</span> <span class="nav-text">BaseAttrInfoMapper</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点击属性值的链接"><span class="nav-number">11.6.</span> <span class="nav-text">点击属性值的链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生成属性列表的html部分"><span class="nav-number">11.7.</span> <span class="nav-text">生成属性列表的html部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面功能–面包屑"><span class="nav-number">12.</span> <span class="nav-text">页面功能–面包屑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路：-1"><span class="nav-number">12.1.</span> <span class="nav-text">思路：</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
