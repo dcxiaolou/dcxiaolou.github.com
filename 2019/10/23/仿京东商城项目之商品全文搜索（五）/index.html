@@ -64,7 +64,7 @@
 <meta property="og:site_name" content="dcxiaolou&#39;s Blog">
 <meta property="og:description" content="搜索什么是搜索， 计算机根据用户输入的关键词进行匹配，从已有的数据库中摘录出相关的记录反馈给用户。  常见的全网搜索引擎，像百度、谷歌这样的。但是除此以外，搜索技术在垂直领域也有广泛的使用，比如淘宝、京东搜索商品，万芳、知网搜索期刊，csdn中搜索问题贴。也都是基于海量数据的搜索。 如何处理搜索用传统关系性数据库弊端：   1、 对于传统的关系性数据库对于关键词的查询，只能逐字逐行的匹配，性能非常">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-23T11:14:21.082Z">
+<meta property="og:updated_time" content="2019-10-23T11:17:30.532Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="仿京东商城项目之商品全文搜索（五）">
 <meta name="twitter:description" content="搜索什么是搜索， 计算机根据用户输入的关键词进行匹配，从已有的数据库中摘录出相关的记录反馈给用户。  常见的全网搜索引擎，像百度、谷歌这样的。但是除此以外，搜索技术在垂直领域也有广泛的使用，比如淘宝、京东搜索商品，万芳、知网搜索期刊，csdn中搜索问题贴。也都是基于海量数据的搜索。 如何处理搜索用传统关系性数据库弊端：   1、 对于传统的关系性数据库对于关键词的查询，只能逐字逐行的匹配，性能非常">
@@ -285,7 +285,7 @@
                 
               
 
-              <time title="创建时间：2019-10-23 19:13:32 / 修改时间：19:14:21" itemprop="dateCreated datePublished" datetime="2019-10-23T19:13:32+08:00">2019-10-23</time>
+              <time title="创建时间：2019-10-23 19:13:32 / 修改时间：19:17:30" itemprop="dateCreated datePublished" datetime="2019-10-23T19:13:32+08:00">2019-10-23</time>
             </span>
           
             
@@ -337,6 +337,8 @@
 <h3 id="如何处理搜索"><a href="#如何处理搜索" class="headerlink" title="如何处理搜索"></a>如何处理搜索</h3><h4 id="用传统关系性数据库"><a href="#用传统关系性数据库" class="headerlink" title="用传统关系性数据库"></a>用传统关系性数据库</h4><p>弊端：  </p>
 <p>1、 对于传统的关系性数据库对于关键词的查询，只能逐字逐行的匹配，性能非常差。</p>
 <p>2、匹配方式不合理，比如搜索“小米手机” ，如果用like进行匹配， 根本匹配不到。但是考虑使用者的用户体验的话，除了完全匹配的记录，还应该显示一部分近似匹配的记录，至少应该匹配到“手机”。</p>
+<a id="more"></a>
+
 <h4 id="用专业全文索引"><a href="#用专业全文索引" class="headerlink" title="用专业全文索引"></a>用专业全文索引</h4><p>全文搜索引擎目前主流的索引技术就是倒排索引的方式。</p>
 <p>传统的保存数据的方式都是</p>
 <p>​    记录→单词</p>
